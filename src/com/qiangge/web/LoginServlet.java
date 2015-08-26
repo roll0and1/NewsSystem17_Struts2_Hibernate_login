@@ -73,6 +73,7 @@ public class LoginServlet extends HttpServlet {
 				// 初始化Userservice
 				UserService userService = new UserService();
 				userId = userService.login(name, password);
+				System.out.println("Login-id:"+userId);
 
 				if (userId > 0) {
 					// 登录成功
