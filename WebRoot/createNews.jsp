@@ -66,31 +66,35 @@
 			</tr>
 			<tr>
 				<td class="td">标题：</td>
-				<td><input type="text" name="title" id="title" size="60"
-					value="<%=news.getTitle()%> " /></td>
+				<td><input type="text" name="news.title" id="title" size="60"
+					value="${news.title } " /></td>
 			</tr>
 			<tr>
 				<td class="td">栏目：</td>
-				<td><select id="newsTypeId" name="newsTypeId">
+				<%
+					int newsTypeId = 0;
+					newsTypeId = news.getNewsTypeId();
+				%>
+				<td><select id="newsTypeId" name="news.newsTypeId">
 						<option value="0">请选择栏目</option>
-						<option value="1">国际新闻</option>
-						<option value="2">国内新闻</option>
-						<option value="3">娱乐新闻</option>
-						<option value="4">体育新闻</option>
-						<option value="5">财经频道</option>
-						<option value="6">汽车频道</option>
-						<option value="7">电子频道</option>
+						<option value="1" <%if (newsTypeId == 1) {%> selected <%}%>>国际新闻</option>
+						<option value="2" <%if (newsTypeId == 2) {%> selected <%}%>>国内新闻</option>
+						<option value="3" <%if (newsTypeId == 3) {%> selected <%}%>>娱乐新闻</option>
+						<option value="4" <%if (newsTypeId == 4) {%> selected <%}%>>体育新闻</option>
+						<option value="5" <%if (newsTypeId == 5) {%> selected <%}%>>财经频道</option>
+						<option value="6" <%if (newsTypeId == 6) {%> selected <%}%>>汽车频道</option>
+						<option value="7" <%if (newsTypeId == 7) {%> selected <%}%>>电子频道</option>
 				</select></td>
 			</tr>
 			<tr>
 				<td class="td">来源：</td>
-				<td><input type="text" name="source" id="source"
-					value="<%=news.getSource()%>" /></td>
+				<td><input type="text" name="news.source" id="source"
+					value="${news.source }" /></td>
 			</tr>
 			<tr>
 				<td class="td">作者：</td>
-				<td><input type="text" name="author" id="author"
-					value="<%=news.getAuthor()%>" /></td>
+				<td><input type="text" name="news.author" id="author"
+					value="${news.author }" /></td>
 			</tr>
 			<tr>
 				<td class="td">创建时间：</td>
@@ -98,18 +102,18 @@
 					Date date = new Date();
 					SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 				%>
-				<td><input type="text" name="createTime" id="createTime"
+				<td><input type="text" name="news.createTime" id="createTime"
 					value="<%=df.format(date)%>" /></td>
 			</tr>
 			<tr>
 				<td class="td">关键字：</td>
-				<td><input type="text" name="keywords" id="keywords" size="60"
-					value="<%=news.getKeywords()%>" /></td>
+				<td><input type="text" name="news.keywords" id="keywords"
+					size="60" value="${news.keywords}" /></td>
 			</tr>
 			<tr>
 				<td class="td">内容：</td>
-				<td><textarea id="content" name="content"
-						style="width:600px; height:230px;" value="<%=news.getContent()%>"></textarea></td>
+				<td><textarea id="content" name="news.content"
+						style="width:600px; height:230px;">${news.content} </textarea></td>
 			</tr>
 			<tr>
 				<td class="td">附件：</td>
@@ -120,7 +124,7 @@
 				if (message != null) {
 			%>
 			<tr>
-				<td align="center" id="message"><%=message%></td>
+				<td align="center" id="message">${message}</td>
 			</tr>
 
 			<%

@@ -2,7 +2,7 @@
 <div class="header">
 	<div class="toplinks">
 		您好：<%=session.getAttribute("name")%>，欢迎使用新闻系统！<span>【<a
-			href="index.html" target="_top">返回首页</a>】【<a href="logout.jsp"
+			href="index.html" target="_top">返回首页</a>】【<a href="logout"
 			target="_top">注销登录</a>】
 		</span>
 	</div>

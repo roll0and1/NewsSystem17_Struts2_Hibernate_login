@@ -16,7 +16,7 @@
 	<!--配置用户package -->
 	<package name="user" extends="struts-default">
 		<!--访问映射 -->
-		<action name="toRegister" class="com.qiangge.web.ToRegister">
+		<action name="toRegister" class="com.qiangge.web.ToRegisterAction">
 			<result name="register">/register.jsp</result>
 		</action>
 
@@ -49,16 +49,31 @@
 
 		<action name="toAdmin" class="com.qiangge.web.ToAdminAction">
 			<result name="admin">/adminJsp.jsp</result>
-			<result name="login">/login.jsp</result>
+			<result name="login" type="redirect">/login.jsp</result>
 		</action>
 		<action name="toEditor" class="com.qiangge.web.ToEditorAction">
 			<result name="editor">/editorJsp.jsp</result>
-			<result name="login">/login.jsp</result>
+			<result name="login" type="redirect">/login.jsp</result>
 		</action>
 
 		<!--退出登录 -->
 		<action name="logout" class="com.qiangge.web.LogoutAction">
 			<result name="logout" type="redirect">/index.html</result>
 		</action>
+	</package>
+
+	<package name="news" extends="struts-default">
+		<action name="toCreateNews" class="com.qiangge.web.ToCreateNewsAction">
+			<result name="create">/createNews.jsp</result>
+			<result name="login" type="redirect">/login.jsp</result>
+		</action>
+
+		<action name="createNews" class="com.qiangge.web.CreateNewsAction">
+			<result name="create">/createNews.jsp</result>
+			<result name="login" type="redirect">/login.jsp</result>
+			<result name="error">/error.jsp</result>
+		</action>
+
+
 	</package>
 </struts>
