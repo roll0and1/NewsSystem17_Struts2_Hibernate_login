@@ -6,8 +6,8 @@ import com.qiangge.model.User;
 import com.qiangge.utils.AppException;
 
 /**
- * 
- * @author zha_zha 用户业务处理类，处理用户的注册业务逻辑
+ * 用户业务处理类，处理用户的注册等业务逻辑
+ * @author zha_zha 
  */
 
 public class UserService {
@@ -44,6 +44,18 @@ public class UserService {
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new AppException("com.qiangge.UserService.login");
+		}
+	}
+	public int getRole(int id) throws AppException {
+		int role = -1;
+		try {
+			// 获取用户role
+			role = userDao.getRoleById(id);
+			return role;
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new AppException("com.qiangge.UserService.getRole");
 		}
 	}
 }

@@ -95,7 +95,35 @@ public class UserDaoImpl implements UserDao {
 			DBUtil.closeConnection(conn);
 		}
 		return id;
-		
 
+	}
+
+	@Override
+	public int getRoleById(int id) throws AppException {
+		// 初始化用户role
+		int role = -1;
+		Connection conn = null;
+		PreparedStatement psmt = null;
+		ResultSet rs = null;
+		conn = DBUtil.getConnection(); // 创建数据库连接
+		// 声明操作语句：将用户信息保存到数据库中， “？”为占位符 注意del
+		String sql = "select role from t_user where id=?;";
+		try {
+			psmt = conn.prepareStatement(sql);
+			psmt.setInt(1, id);
+			rs = psmt.executeQuery();
+			while (rs.next()) {
+				role = rs.getInt(1);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new AppException("com.qiangge.dao.impl.getRoleById");
+		} finally {
+			DBUtil.closeResultSet(rs);
+			DBUtil.closeStatement(psmt);
+			DBUtil.closeConnection(conn);
+		}
+		return role;
 	}
 }

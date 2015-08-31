@@ -12,4 +12,5 @@ public interface UserDao {
 	boolean isExist(String name) throws AppException;
 	boolean add(User user) throws AppException;
 	int login(String name,String password) throws AppException;
+	int getRoleById(int id)throws AppException;
 }
