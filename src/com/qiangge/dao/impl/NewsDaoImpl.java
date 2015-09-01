@@ -10,6 +10,7 @@ import java.util.List;
 import com.mysql.jdbc.Statement;
 import com.qiangge.dao.NewsDao;
 import com.qiangge.model.News;
+import com.qiangge.model.NewsModel;
 import com.qiangge.utils.AppException;
 import com.qiangge.utils.DBUtil;
 
@@ -59,23 +60,33 @@ public class NewsDaoImpl implements NewsDao {
 	}
 
 	@Override
-	public List<News> getList(int state) throws AppException {
-		List<News> newsList = new ArrayList<News>();
+	public List<NewsModel> getList(int state, int userId) throws AppException {
+		List<NewsModel> newsList = new ArrayList<NewsModel>();
 		Connection conn = null;
 		PreparedStatement psmt = null;
 		ResultSet rs = null;
 		conn = DBUtil.getConnection();
-		String sql = "select id ,title from t_news where state=? and del =0 order by createTime desc;";
+		String sql = "select t_news.id ,t_news.title,t_newstype.name,t_news.createTime,t_news.source "
+				+ "from t_news,t_newstype"
+				+ " where "
+				+ "t_news.state=? and t_news.user_id=? "
+				+ "and t_news.newsType_id=t_newstype.id" + " and t_news.del=0;";
 		try {
 			psmt = conn.prepareStatement(sql);
 			psmt.setInt(1, state);
+			psmt.setInt(2, userId);
 			rs = psmt.executeQuery();
 			// 循环提取结果集中的信息，保存到newList中
 			while (rs.next()) {
-				News news = new News();
-				news.setId(rs.getInt("id"));
-				news.setTitle(rs.getString("title"));
-				newsList.add(news);
+				NewsModel newsModel = new NewsModel(); // 实例化对象
+				newsModel.setId(rs.getInt(1));
+				newsModel.setTitle(rs.getString(2));
+				newsModel.setNewsType(rs.getString(3));
+				// 截取前19个字符 ，否则会显示出“.0”
+				String createTime = rs.getString(4).substring(0, 19);
+				newsModel.setCreateTime(createTime);
+				newsModel.setSource(rs.getString(5));
+				newsList.add(newsModel);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -85,6 +96,84 @@ public class NewsDaoImpl implements NewsDao {
 			DBUtil.closeStatement(psmt);
 			DBUtil.closeConnection(conn);
 		}
+		System.out.println(newsList.size());
 		return newsList;
+	}
+
+	@Override
+	public List<NewsModel> getList(int state, int userId, int currentPage,
+			int size) throws AppException {
+		List<NewsModel> newsList = new ArrayList<NewsModel>();
+		Connection conn = null;
+		PreparedStatement psmt = null;
+		ResultSet rs = null;
+		conn = DBUtil.getConnection();
+		String sql = "select t_news.id ,t_news.title,t_newstype.name,t_news.createTime,t_news.source "
+				+ "from t_news,t_newstype"
+				+ " where "
+				+ "t_news.state=? and t_news.user_id=? "
+				+ "and t_news.newsType_id=t_newstype.id"
+				+ " and t_news.del=0 "
+				+ "limit ?,?;";
+		try {
+			psmt = conn.prepareStatement(sql);
+			psmt.setInt(1, state);
+			psmt.setInt(2, userId);
+			
+			// 计算起始位置
+			int offset = (currentPage - 1) * size;
+			psmt.setInt(3, offset);
+			psmt.setInt(4, size);
+			rs = psmt.executeQuery();
+			// 循环提取结果集中的信息，保存到newList中
+			while (rs.next()) {
+				NewsModel newsModel = new NewsModel(); // 实例化对象
+				newsModel.setId(rs.getInt(1));
+				newsModel.setTitle(rs.getString(2));
+				newsModel.setNewsType(rs.getString(3));
+				// 截取前19个字符 ，否则会显示出“.0”
+				String createTime = rs.getString(4).substring(0, 19);
+				newsModel.setCreateTime(createTime);
+				newsModel.setSource(rs.getString(5));
+				newsList.add(newsModel);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new AppException("com.qiangge.dao.impl.NewsImpl.getList");
+		} finally {
+			DBUtil.closeResultSet(rs);
+			DBUtil.closeStatement(psmt);
+			DBUtil.closeConnection(conn);
+		}
+		System.out.println(newsList.size());
+		System.out.println("state"+state);
+		System.out.println("userId:"+userId);
+		System.out.println("currentPage:"+currentPage);
+		return newsList;
+	}
+
+	@Override
+	public int getCount(int state, int userId) throws AppException {
+		int count = 0;
+		Connection conn = null;
+		PreparedStatement psmt = null;
+		ResultSet rs = null;
+		conn = DBUtil.getConnection();
+
+		String sql = "select count(id) as n from t_news where user_id=? and state=? and del=0;";
+		try {
+			psmt = conn.prepareStatement(sql);
+			psmt.setInt(1, userId);
+			psmt.setInt(2, state);
+			rs = psmt.executeQuery();
+			if (rs.next()) {
+				count = rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			throw new AppException("com.qiangge.dao.impl.NewsImpl.getCount");
+		}
+		return count;
 	}
 }

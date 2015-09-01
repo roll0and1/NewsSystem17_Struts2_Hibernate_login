@@ -23,7 +23,7 @@
 <frameset rows="72,*,70" cols="*" frameborder="no">
 	<frame src="header.jsp" name="topframe" scrolling="no">
 	<frameset cols="180,*" frameborder="no">
-		<frame src="editorMenu.jsp" noresize name="menu" scrolling="no">
+		<frame src="adminMenu.jsp" noresize name="menu" scrolling="no">
 		<frame src="welcome.jsp" noresize name="main" scrolling="auto">
 	</frameset>
 	<frame src="footer.jsp" name="bottomframe" scrolling="no">

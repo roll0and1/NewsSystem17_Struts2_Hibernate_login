@@ -16,7 +16,7 @@ public class ToAdminAction extends ActionSupport {
 			return "login";
 		} else {
 
-			return "editor";
+			return "admin";
 		}
 	}
 
