@@ -80,6 +80,12 @@
 			<result name="error">/error.jsp</result>
 		</action>
 		
+		<action name="preview" class="com.qiangge.web.PreviewAction">
+			<result name="preview">/preview.jsp</result>
+			<result name="login" type="redirect">/login.jsp</result>
+			<result name="error">/error.jsp</result>
+		</action>
+		
 		
 
 

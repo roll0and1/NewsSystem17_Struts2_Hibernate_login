@@ -15,4 +15,6 @@ public interface NewsDao {
 
 	List<NewsModel> getList(int state, int userId, int currentPage, int size)
 			throws AppException;
+
+	News getNewsById(int id) throws AppException;
 }

@@ -66,7 +66,8 @@
 					<!-- 输出序号 -->
 					<td>${status.index+1}</td>
 					<!--输出标题  -->
-					<td align="left"><a href="javascript:void(0)">${news.title }</a></td>
+					<td align="left"><a
+						href="javascript:preview('preview?id=${news.id }')">${news.title }</a></td>
 					<!--输出创建时间  -->
 					<td>${news.createTime}</td>
 					<!--输出新闻栏目  -->
@@ -93,10 +94,13 @@
 				共${pageModel.totalCount}条记录&nbsp;&nbsp; <a
 				href="myNews?state=${state}&currentPage=<%=pageModel.getFirstPage()%>&size=${
 				pageMode.size }">首页</a>
-				<a href="myNews?state=${state}&currentPage=<%=pageModel.getPrePage()%>&size=${
-				pageMode.size }">上一页</a> <a
+				<a
+				href="myNews?state=${state}&currentPage=<%=pageModel.getPrePage()%>&size=${
+				pageMode.size }">上一页</a>
+				<a
 				href="myNews?state=${state}&currentPage=<%=pageModel.getNextPage()%>&size=${
-				pageMode.size }">下一页</a> <a
+				pageMode.size }">下一页</a>
+				<a
 				href="myNews?state=${state}&currentPage=<%=pageModel.getLastPage()%>&size=${
 				pageMode.size }">末页</a>
 			</td>

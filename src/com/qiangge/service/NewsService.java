@@ -80,4 +80,15 @@ public class NewsService {
 		}
 		return pageModel;
 	}
+
+	public News preview(int id) throws AppException {
+		News news = null;
+		try {
+			news = newsDao.getNewsById(id);
+		} catch (Exception e) {
+			// TODO: handle exception
+			throw new AppException("com.qiangge.NewService.preview");
+		}
+		return news;
+	}
 }

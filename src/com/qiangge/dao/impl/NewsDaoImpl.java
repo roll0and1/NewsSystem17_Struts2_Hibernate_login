@@ -119,7 +119,7 @@ public class NewsDaoImpl implements NewsDao {
 			psmt = conn.prepareStatement(sql);
 			psmt.setInt(1, state);
 			psmt.setInt(2, userId);
-			
+
 			// 计算起始位置
 			int offset = (currentPage - 1) * size;
 			psmt.setInt(3, offset);
@@ -146,9 +146,9 @@ public class NewsDaoImpl implements NewsDao {
 			DBUtil.closeConnection(conn);
 		}
 		System.out.println(newsList.size());
-		System.out.println("state"+state);
-		System.out.println("userId:"+userId);
-		System.out.println("currentPage:"+currentPage);
+		System.out.println("state" + state);
+		System.out.println("userId:" + userId);
+		System.out.println("currentPage:" + currentPage);
 		return newsList;
 	}
 
@@ -175,5 +175,34 @@ public class NewsDaoImpl implements NewsDao {
 			throw new AppException("com.qiangge.dao.impl.NewsImpl.getCount");
 		}
 		return count;
+	}
+
+	@Override
+	public News getNewsById(int id) throws AppException {
+		News news = new News();
+		Connection conn = null;
+		PreparedStatement psmt = null;
+		ResultSet rs = null;
+		conn = DBUtil.getConnection();
+		String sql = "select author,title,createTime,source,click,content "
+				+ "from t_news where id=? and del=0;";
+		try {
+			psmt = conn.prepareStatement(sql);
+			psmt.setInt(1, id);
+			rs = psmt.executeQuery();
+			if (rs.next()) {
+				news.setAuthor(rs.getString(1));
+				news.setTitle(rs.getString(2));
+				news.setCreateTime(rs.getString(3).substring(0, 19));
+				news.setSource(rs.getString(4));
+				news.setClick(rs.getInt(5));
+				news.setContent(rs.getString(6));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			throw new AppException("com.qiangge.dao.impl.getRoleById");
+		}
+		return news;
 	}
 }
