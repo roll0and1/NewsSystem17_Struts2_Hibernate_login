@@ -1,4 +1,5 @@
 ﻿<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
@@ -86,7 +87,7 @@
 
 	<!-- main start -->
 	<div class="main">
-		<form action="Register" method="post">
+		<form action="user!register" method="post">
 			<div class="register_main">
 				<table>
 					<tr>
@@ -119,11 +120,12 @@
 					<tr>
 						<td class="info" colspan="3">重复密码设置一定要与上边密码设置一致。</td>
 					</tr>
-					<tr>
-						<td colspan="3">
-							<!-- 此处显示提示信息 -->
-						</td>
-					</tr>
+					<!--判断是否回显  -->
+					<c:if test="${!empty message }">
+						<tr>
+							<td colspan="3"><font color="red">${message }</font></td>
+						</tr>
+					</c:if>
 					<tr>
 						<td colspan="3"><input type="submit" value="提交"
 							class="button" onclick="return check()" /></td>

@@ -82,7 +82,7 @@
 
 	<!-- main start -->
 	<div class="main">
-		<form action="Login" method="post">
+		<form action="user!login" method="post">
 			<div class="register_main">
 				<table>
 					<tr>

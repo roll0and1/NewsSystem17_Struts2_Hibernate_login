@@ -4,90 +4,64 @@
 	"http://struts.apache.org/dtds/struts-2.3.dtd">
 
 <struts>
-	<package name="qiangge" extends="struts-default">
-		<!--访问映射 -->
-		<action name="toIndex" class="com.qiangge.web.ToIndexAction">
-			<!--视图导向 -->
-			<result name="index" type="dispatcher">/index.html</result>
+	<!--打开DMI -->
+	<constant name="struts.enable.DynamicMethodInvocation" value="true" />
 
-		</action>
-	</package>
 
-	<!--配置用户package -->
-	<package name="user" extends="struts-default">
-		<!--访问映射 -->
-		<action name="toRegister" class="com.qiangge.web.ToRegisterAction">
-			<result name="register">/register.jsp</result>
-		</action>
 
-		<action name="Register" class="com.qiangge.web.RegisterAction">
-			<!--注册失败跳转到注册页面 -->
-			<result name="register">/register.jsp</result>
 
-			<!--注册成功重定向到注册页面 -->
+
+	<!-- 全局跳转 -->
+	<package name="base" extends="struts-default">
+		<global-results>
 			<result name="login" type="redirectAction">toLogin</result>
-
-			<!--系统异常 -->
+			<result name="error" type="redirectAction">toError</result>
+		</global-results>
+		<action name="toError" class="com.qiangge.web.ToErrorAction">
 			<result name="error">/error.jsp</result>
 		</action>
-
-		<!--跳转到登录页面 -->
 		<action name="toLogin" class="com.qiangge.web.ToLoginAction">
 			<result name="login">/login.jsp</result>
 		</action>
+	</package>
 
-		<action name="Login" class="com.qiangge.web.LoginAction">
-			<!--登录成功根据role=1，跳转到管理页面 -->
+
+	<!--news package -->
+	<package name="news" extends="base">
+		<action name="news" class="com.qiangge.web.NewsAction">
+			<!--访问创建新闻的页面 -->
+			<result name="create">/createNews.jsp</result>
+			<!--访问我的新闻页面 -->
+			<result name="myNews">/myNews.jsp</result>
+			<!--访问新闻预览页面 -->
+			<result name="preview">/preview.jsp</result>
+		</action>
+
+	</package>
+
+	<!--user package -->
+	<package name="user" extends="base">
+		<action name="user" class="com.qiangge.web.UserAction">
+			<!--访问登录页面 -->
+			<result name="toLogin">/login.jsp</result>
+			<!--重定向到toAdmin -->
 			<result name="toAdmin" type="redirectAction">toAdmin</result>
-			<!--登录成功根据role=0，跳转到编辑页面 -->
+			<!--重定向到toEditor -->
 			<result name="toEditor" type="redirectAction">toEditor</result>
-			<!--登录失败跳转到登录页面 -->
-			<result name="login">/login.jsp</result>
-			<!--系统异常 -->
-			<result name="error">/error.jsp</result>
+			<!--注销登录 -->
+			<result name="logout" type="redirect">/index.html</result>
+			<!--开始注册或重新注册 -->
+			<result name="register">/register.jsp</result>
 		</action>
 
 		<action name="toAdmin" class="com.qiangge.web.ToAdminAction">
 			<result name="admin">/adminJsp.jsp</result>
-			<result name="login" type="redirect">/login.jsp</result>
 		</action>
+
 		<action name="toEditor" class="com.qiangge.web.ToEditorAction">
 			<result name="editor">/editorJsp.jsp</result>
-			<result name="login" type="redirect">/login.jsp</result>
 		</action>
 
-		<!--退出登录 -->
-		<action name="logout" class="com.qiangge.web.LogoutAction">
-			<result name="logout" type="redirect">/index.html</result>
-		</action>
 	</package>
 
-	<package name="news" extends="struts-default">
-		<action name="toCreateNews" class="com.qiangge.web.ToCreateNewsAction">
-			<result name="create">/createNews.jsp</result>
-			<result name="login" type="redirect">/login.jsp</result>
-		</action>
-
-		<action name="createNews" class="com.qiangge.web.CreateNewsAction">
-			<result name="create">/createNews.jsp</result>
-			<result name="login" type="redirect">/login.jsp</result>
-			<result name="error">/error.jsp</result>
-		</action>
-		
-		<action name="myNews" class="com.qiangge.web.MyNewsAction">
-			<result name="myNews">/myNews.jsp</result>
-			<result name="login" type="redirect">/login.jsp</result>
-			<result name="error">/error.jsp</result>
-		</action>
-		
-		<action name="preview" class="com.qiangge.web.PreviewAction">
-			<result name="preview">/preview.jsp</result>
-			<result name="login" type="redirect">/login.jsp</result>
-			<result name="error">/error.jsp</result>
-		</action>
-		
-		
-
-
-	</package>
 </struts>

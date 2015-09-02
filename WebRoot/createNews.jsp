@@ -59,7 +59,7 @@
 		}
 	%>
 	<form id="createNewsform" name="createNewsform" method="post"
-		action="createNews">
+		action="news!create">
 		<table>
 			<tr bgcolor="#E7E7E7">
 				<td height="24" colspan="10">&nbsp;创建新闻&nbsp;</td>

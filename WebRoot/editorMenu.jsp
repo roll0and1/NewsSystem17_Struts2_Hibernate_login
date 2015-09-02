@@ -24,8 +24,8 @@
 <body>
 	<div class="menu">
 		<ul class="c1 ico3">
-			<li><a href="toCreateNews" target="main">创建新闻</a></li>
-			<li><a href="myNews" target="main">我的新闻</a></li>
+			<li><a href="news!toCreate" target="main">创建新闻</a></li>
+			<li><a href="news!myNews" target="main">我的新闻</a></li>
 		</ul>
 	</div>
 </body>
