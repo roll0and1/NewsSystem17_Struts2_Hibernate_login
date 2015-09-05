@@ -37,7 +37,7 @@
 			<td height="24" colspan="4">&nbsp;我的新闻&nbsp;</td>
 			<td>
 				<!--表单  -->
-				<form action="myNews" method="post">
+				<form action="news!myNews" method="post">
 					状态: <select name="state">
 						<!--使用c:if标签判断用户选择，并显示其中的项  -->
 						<option value="0" <c:if test="${state==0}">selected</c:if>>待审核</option>
@@ -92,17 +92,17 @@
 			<td colspan="9" align="right" style="padding:0 52px;">现在是第
 				${pageModel.currentPage}页 , 共<%=pageModel.getTotalpages()%> 页
 				共${pageModel.totalCount}条记录&nbsp;&nbsp; <a
-				href="myNews?state=${state}&currentPage=<%=pageModel.getFirstPage()%>&size=${
-				pageMode.size }">首页</a>
+				href="news!myNews?state=${state}&currentPage=<%=pageModel.getFirstPage()%>&size=${
+				pageModel.size }">首页</a>
 				<a
-				href="myNews?state=${state}&currentPage=<%=pageModel.getPrePage()%>&size=${
-				pageMode.size }">上一页</a>
+				href="news!myNews?state=${state}&currentPage=<%=pageModel.getPrePage()%>&size=${
+				pageModel.size }">上一页</a>
 				<a
-				href="myNews?state=${state}&currentPage=<%=pageModel.getNextPage()%>&size=${
-				pageMode.size }">下一页</a>
+				href="news!myNews?state=${state}&currentPage=<%=pageModel.getNextPage()%>&size=${
+				pageModel.size }">下一页</a>
 				<a
-				href="myNews?state=${state}&currentPage=<%=pageModel.getLastPage()%>&size=${
-				pageMode.size }">末页</a>
+				href="news!myNews?state=${state}&currentPage=<%=pageModel.getLastPage()%>&size=${
+				pageModel.size }">末页</a>
 			</td>
 		</tr>
 
