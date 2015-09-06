@@ -35,6 +35,11 @@
 			<result name="myNews">/myNews.jsp</result>
 			<!--访问新闻预览页面 -->
 			<result name="preview">/preview.jsp</result>
+			<!--管理者预览页面 -->
+			<result name="check">/checkNews.jsp</result>
+			<!--审核新闻后，刷新待审新闻列表 -->
+			<result name="toUncheck" type="redirectAction" >news!toUncheck</result>
+
 		</action>
 
 	</package>

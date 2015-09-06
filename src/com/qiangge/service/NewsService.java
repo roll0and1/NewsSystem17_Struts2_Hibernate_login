@@ -32,7 +32,7 @@ public class NewsService {
 	}
 
 	/**
-	 * 获取相应的新闻列表
+	 * 获取相应用户的新闻列表
 	 * 
 	 * @param state
 	 * @param userId
@@ -46,7 +46,7 @@ public class NewsService {
 	}
 
 	/**
-	 * 获取PageModel
+	 * 获取相应用户的PageModel
 	 * 
 	 * @param state
 	 * @param userId
@@ -81,6 +81,13 @@ public class NewsService {
 		return pageModel;
 	}
 
+	/**
+	 * 获取news信息
+	 * 
+	 * @param id
+	 * @return
+	 * @throws AppException
+	 */
 	public News preview(int id) throws AppException {
 		News news = null;
 		try {
@@ -90,5 +97,41 @@ public class NewsService {
 			throw new AppException("com.qiangge.NewService.preview");
 		}
 		return news;
+	}
+
+	public PageModel getList(int state, int currentPage, int size)
+			throws AppException {
+		PageModel pageModel = new PageModel();
+		List<NewsModel> newsList = null;
+		try {
+
+			// 获取总记录数
+			int totalCount = newsDao.getCount(state);
+
+			pageModel.setTotalCount(totalCount);
+
+			// 分页查询新闻信息
+			newsList = newsDao.getList(state, currentPage, size);
+
+			pageModel.setNewsList(newsList);
+
+			pageModel.setCurrentPage(currentPage);
+			pageModel.setSize(size);
+
+		} catch (Exception e) {
+			// TODO: handle exception
+			throw new AppException("com.qiangge.NewService.getList");
+		}
+		return pageModel;
+	}
+
+	public boolean check(int state, int id) throws AppException {
+		boolean flag = false;
+		try {
+			flag = newsDao.update(state, id);
+		} catch (Exception e) {
+			throw new AppException("com.qiangge.NewService.check");
+		}
+		return flag;
 	}
 }

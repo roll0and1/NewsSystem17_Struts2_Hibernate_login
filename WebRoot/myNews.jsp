@@ -42,6 +42,7 @@
 						<!--使用c:if标签判断用户选择，并显示其中的项  -->
 						<option value="0" <c:if test="${state==0}">selected</c:if>>待审核</option>
 						<option value="1" <c:if test="${state==1}">selected</c:if>>已发布</option>
+						<option value="2" <c:if test="${state==2}">selected</c:if>>未通过</option>
 					</select> <input type="submit" value="查询" />
 				</form>
 			</td>
@@ -58,6 +59,7 @@
 
 		<!--新闻信息列表  -->
 		<c:if test="${!empty pageModel }">
+			<!--items:要遍历的对象 val：遍历对象的元素   status：元素的状态 -->
 			<c:forEach items="${pageModel.newsList}" var="news"
 				varStatus="status">
 				<tr align='center' height="22">
@@ -67,7 +69,7 @@
 					<td>${status.index+1}</td>
 					<!--输出标题  -->
 					<td align="left"><a
-						href="javascript:preview('preview?id=${news.id }')">${news.title }</a></td>
+						href="javascript:preview('news!preview?id=${news.id }')">${news.title }</a></td>
 					<!--输出创建时间  -->
 					<td>${news.createTime}</td>
 					<!--输出新闻栏目  -->

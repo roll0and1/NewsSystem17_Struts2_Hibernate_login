@@ -24,7 +24,7 @@
 <body>
 	<div class="menu">
 		<ul class="c1 ico3">
-			<li><a href="checkNews.htm" target="main">审核新闻</a></li>
+			<li><a href="news!toUncheck" target="main">审核新闻</a></li>
 		</ul>
 	</div>
 </body>

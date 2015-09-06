@@ -159,6 +159,63 @@ public class NewsAction extends ActionSupport {
 		}
 	}
 
+	public String toUncheck() {
+		// 初始化session
+		Map<String, Object> session = ActionContext.getContext().getSession();
+		// 获取用户信息
+		Integer userId = (Integer) session.get("userId");
+		// 判断用户是否登录
+		if (null == userId) {
+			// 用户未登录，重定向到login
+			return "login";
+		}
+		try {
+			// 获取当前用户创建的新闻信息
+			pageModel = newsService.getList(state, currentPage, size);
+			// // 将newsList存入request
+			Map<String, Object> request = (Map<String, Object>) ActionContext
+					.getContext().get("request");
+			request.put("newsPageModel", pageModel);
+			return "check";
+		} catch (AppException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			// 跳转到错误页面
+			return "error";
+		}
+
+	}
+
+	public String check() {
+		// 初始化session
+		Map<String, Object> session = ActionContext.getContext().getSession();
+		// 设置标签位
+		boolean flag = false;
+		// 获取用户信息
+		Integer userId = (Integer) session.get("userId");
+		// 判断用户是否登录
+		if (null == userId) {
+			// 用户未登录，重定向到login
+			return "login";
+		}
+		try {
+			// 获取当前用户创建的新闻信息
+			flag = newsService.check(state, id);
+			if (flag) {
+				// 重定向到toUncheck
+				return "toUncheck";
+			} else {
+				return "error";
+			}
+		} catch (AppException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			// 跳转到错误页面
+			return "error";
+		}
+
+	}
+
 	public void setCurrentPage(int currentPage) {
 		this.currentPage = currentPage;
 	}

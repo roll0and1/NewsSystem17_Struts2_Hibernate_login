@@ -11,7 +11,7 @@ public class News {
 	private String content; // 新闻正文
 	private String createTime; // 创建时间
 	private int click; // 点击次数
-	private int state; // 状态位（0，未审核； 1，已发布；2，已废除）
+	private int state; // 状态位（0，待审核； 1，已发布（通过）；2，已废除（不通过））
 	private int del; // 删除状态（0，未删除；1，已删除）
 
 	// 无参构造方法
