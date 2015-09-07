@@ -14,4 +14,5 @@ public interface UserDao {
 	int login(String name,String password) throws AppException;
 	int getRoleById(int id)throws AppException;
 	
+	
 }

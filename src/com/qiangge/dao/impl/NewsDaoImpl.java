@@ -305,9 +305,91 @@ public class NewsDaoImpl implements NewsDao {
 			psmt.executeUpdate();
 			flag = true;
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new AppException("com.qiangge.dao.impl.NewsImpl.update");
 		}
 		return flag;
+	}
+
+	@Override
+	public List<News> getHotNewsByClick(int state, int num) throws AppException {
+		List<News> hotNewsList = new ArrayList<News>();
+		Connection conn = null;
+		PreparedStatement psmt = null;
+		ResultSet rs = null;
+		conn = DBUtil.getConnection();
+		String sql = "select id,title from t_news where state=? order by click desc limit ? ";
+		try {
+			psmt = conn.prepareStatement(sql);
+			psmt.setInt(1, state);
+			psmt.setInt(2, num);
+			rs = psmt.executeQuery();
+			while (rs.next()) {
+				News news = new News();
+				news.setId(rs.getInt(1));
+				news.setTitle(rs.getString(2));
+				hotNewsList.add(news);
+			}
+		} catch (Exception e) {
+			throw new AppException(
+					"com.qiangge.dao.impl.NewsImpl.getHotNewsByClick");
+		}
+		return hotNewsList;
+	}
+
+	@Override
+	public List<News> getlatestNewsByCreateTime(int state, int num)
+			throws AppException {
+		List<News> hotNewsList = new ArrayList<News>();
+		Connection conn = null;
+		PreparedStatement psmt = null;
+		ResultSet rs = null;
+		conn = DBUtil.getConnection();
+		String sql = "select id,title from t_news where state=? order by createTime desc limit ? ";
+		try {
+			psmt = conn.prepareStatement(sql);
+			psmt.setInt(1, state);
+			psmt.setInt(2, num);
+			rs = psmt.executeQuery();
+			while (rs.next()) {
+				News news = new News();
+				news.setId(rs.getInt(1));
+				news.setTitle(rs.getString(2));
+				hotNewsList.add(news);
+			}
+		} catch (Exception e) {
+			throw new AppException(
+					"com.qiangge.dao.impl.NewsImpl.getHotNewsByClick");
+		}
+		return hotNewsList;
+	}
+
+	@Override
+	public List<News> getTypeNews(int i, int state, int num)
+			throws AppException {
+		List<News> typeNewsList = new ArrayList<News>();
+		Connection conn = null;
+		PreparedStatement psmt = null;
+		ResultSet rs = null;
+		conn = DBUtil.getConnection();
+		String sql = "select id,title from t_news where newsType_id=? and state=? order by createTime limit ? ";
+		try {
+			psmt = conn.prepareStatement(sql);
+			psmt.setInt(1, i);
+			psmt.setInt(2, state);
+			psmt.setInt(3, num);
+			rs = psmt.executeQuery();
+			while (rs.next()) {
+				News news = new News();
+				
+				news.setId(rs.getInt(1));
+				news.setTitle(rs.getString(2));
+				typeNewsList.add(news);
+			}
+		} catch (Exception e) {
+			throw new AppException(
+					"com.qiangge.dao.impl.NewsImpl.getTypeNews");
+		}
+		System.out.println("typeId"+i+"size："+typeNewsList.size());
+		return typeNewsList;
 	}
 }

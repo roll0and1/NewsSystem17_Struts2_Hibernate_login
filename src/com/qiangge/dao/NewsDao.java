@@ -24,4 +24,11 @@ public interface NewsDao {
 	News getNewsById(int id) throws AppException;
 
 	boolean update(int state, int id) throws AppException;
+
+	List<News> getHotNewsByClick(int state, int num) throws AppException;
+
+	List<News> getlatestNewsByCreateTime(int state, int num)
+			throws AppException;
+
+	List<News> getTypeNews(int i, int state, int num) throws AppException;
 }

@@ -134,4 +134,35 @@ public class NewsService {
 		}
 		return flag;
 	}
+
+	public List<News> getHotNews(int state, int num) throws AppException {
+		List<News> hotNewsList = null;
+		try {
+			hotNewsList = newsDao.getHotNewsByClick(state, num);
+		} catch (Exception e) {
+			throw new AppException("com.qiangge.NewService.getHotNews");
+		}
+		return hotNewsList;
+	}
+
+	public List<News> getLatestNews(int state, int num) throws AppException {
+		List<News> latestNewsList = null;
+		try {
+			latestNewsList = newsDao.getlatestNewsByCreateTime(state, num);
+		} catch (Exception e) {
+			throw new AppException("com.qiangge.NewService.latestNewsList");
+		}
+		return latestNewsList;
+	}
+
+	public List<News> getNewsByType(int i, int state, int num) throws AppException{
+		
+		List<News> typeNewsList = null;
+		try {
+			typeNewsList = newsDao.getTypeNews(i,state, num);
+		} catch (Exception e) {
+			throw new AppException("com.qiangge.NewService.latestNewsList");
+		}
+		return typeNewsList;
+	}
 }

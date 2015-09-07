@@ -19,7 +19,11 @@
 		<filter-name>struts2</filter-name>
 		<!--配置拦截路径 “/*”表示拦截所有的请求路径 -->
 		<url-pattern>/*</url-pattern>
+		<dispatcher>REQUEST</dispatcher><!--过滤dispatcher的REQUEST方式请求，默认值  -->
+		<dispatcher>FORWARD</dispatcher><!--过滤dispatcher的FORWARD方式请求，默认值  -->
 	</filter-mapping>
 
-
+	<welcome-file-list>
+		<welcome-file>index.jsp</welcome-file>
+	</welcome-file-list>
 </web-app>
