@@ -51,7 +51,9 @@
 		<ul>
 			<li><a href="news!index"><span>主页</span> </a></li>
 
-			<li><a href="newsType.htm"><span>国际新闻</span> </a></li>
+			<li><a
+				href="news!getTypeNews?state=${state }&newsTypeId=${newsTypeId }&currentPage=${currentPage}&size=${size }"><span>国际新闻</span>
+			</a></li>
 
 			<li><a href="newsType.htm"><span>国内新闻</span> </a></li>
 
@@ -85,17 +87,17 @@
 						href="newsType.htm">更多...</a> </span>
 				</dt>
 				<c:if test="${!empty internationalNewsList }">
-				<c:forEach items="${internationalNewsList }" var="news" >
-				<dd>
-					<ul class="ico3">
+					<c:forEach items="${internationalNewsList }" var="news">
+						<dd>
+							<ul class="ico3">
 
-						<li><a
-						href="javascript:preview('news!preview?id=${news.id }')">${news.title }</a></li>
+								<li><a
+									href="javascript:preview('news!preview?id=${news.id }')">${news.title }</a></li>
 
-					</ul>
-					
-				</dd>
-				</c:forEach>
+							</ul>
+
+						</dd>
+					</c:forEach>
 				</c:if>
 			</dl>
 
@@ -105,17 +107,17 @@
 						href="newsType.htm">更多...</a> </span>
 				</dt>
 				<c:if test="${!empty domesticNewsList }">
-				<c:forEach items="${domesticNewsList }" var="news" >
-				<dd>
-					<ul class="ico3">
+					<c:forEach items="${domesticNewsList }" var="news">
+						<dd>
+							<ul class="ico3">
 
-						<li><a
-						href="javascript:preview('news!preview?id=${news.id }')">${news.title }</a></li>
+								<li><a
+									href="javascript:preview('news!preview?id=${news.id }')">${news.title }</a></li>
 
-					</ul>
-					
-				</dd>
-				</c:forEach>
+							</ul>
+
+						</dd>
+					</c:forEach>
 				</c:if>
 			</dl>
 
@@ -125,17 +127,17 @@
 						href="newsType.htm">更多...</a> </span>
 				</dt>
 				<c:if test="${!empty entertainmentNewsList }">
-				<c:forEach items="${entertainmentNewsList }" var="news" >
-				<dd>
-					<ul class="ico3">
+					<c:forEach items="${entertainmentNewsList }" var="news">
+						<dd>
+							<ul class="ico3">
 
-						<li><a
-						href="javascript:preview('news!preview?id=${news.id }')">${news.title }</a></li>
+								<li><a
+									href="javascript:preview('news!preview?id=${news.id }')">${news.title }</a></li>
 
-					</ul>
-					
-				</dd>
-				</c:forEach>
+							</ul>
+
+						</dd>
+					</c:forEach>
 				</c:if>
 			</dl>
 
@@ -145,17 +147,17 @@
 						href="newsType.htm">更多...</a> </span>
 				</dt>
 				<c:if test="${!empty sportsNewsList }">
-				<c:forEach items="${sportsNewsList }" var="news" >
-				<dd>
-					<ul class="ico3">
+					<c:forEach items="${sportsNewsList }" var="news">
+						<dd>
+							<ul class="ico3">
 
-						<li><a
-						href="javascript:preview('news!preview?id=${news.id }')">${news.title }</a></li>
+								<li><a
+									href="javascript:preview('news!preview?id=${news.id }')">${news.title }</a></li>
 
-					</ul>
-					
-				</dd>
-				</c:forEach>
+							</ul>
+
+						</dd>
+					</c:forEach>
 				</c:if>
 			</dl>
 
@@ -165,17 +167,17 @@
 						href="newsType.htm">更多...</a> </span>
 				</dt>
 				<c:if test="${!empty financialNewsList }">
-				<c:forEach items="${financialNewsList }" var="news" >
-				<dd>
-					<ul class="ico3">
+					<c:forEach items="${financialNewsList }" var="news">
+						<dd>
+							<ul class="ico3">
 
-						<li><a
-						href="javascript:preview('news!preview?id=${news.id }')">${news.title }</a></li>
+								<li><a
+									href="javascript:preview('news!preview?id=${news.id }')">${news.title }</a></li>
 
-					</ul>
-					
-				</dd>
-				</c:forEach>
+							</ul>
+
+						</dd>
+					</c:forEach>
 				</c:if>
 			</dl>
 
@@ -185,17 +187,17 @@
 						href="newsType.htm">更多...</a> </span>
 				</dt>
 				<c:if test="${!empty autoNewsList }">
-				<c:forEach items="${autoNewsList }" var="news" >
-				<dd>
-					<ul class="ico3">
+					<c:forEach items="${autoNewsList }" var="news">
+						<dd>
+							<ul class="ico3">
 
-						<li><a
-						href="javascript:preview('news!preview?id=${news.id }')">${news.title }</a></li>
+								<li><a
+									href="javascript:preview('news!preview?id=${news.id }')">${news.title }</a></li>
 
-					</ul>
-					
-				</dd>
-				</c:forEach>
+							</ul>
+
+						</dd>
+					</c:forEach>
 				</c:if>
 			</dl>
 		</div>
@@ -208,17 +210,17 @@
 					<strong>最新更新</strong>
 				</dt>
 				<c:if test="${!empty latestNewsList }">
-				<c:forEach items="${latestNewsList }" var="news" >
-				<dd>
-					<ul class="ico3">
+					<c:forEach items="${latestNewsList }" var="news">
+						<dd>
+							<ul class="ico3">
 
-						<li><a
-						href="javascript:preview('news!preview?id=${news.id }')">${news.title }</a></li>
+								<li><a
+									href="javascript:preview('news!preview?id=${news.id }')">${news.title }</a></li>
 
-					</ul>
-					
-				</dd>
-				</c:forEach>
+							</ul>
+
+						</dd>
+					</c:forEach>
 				</c:if>
 			</dl>
 
@@ -227,17 +229,17 @@
 					<strong>热点内容</strong>
 				</dt>
 				<c:if test="${!empty hotNewsList }">
-				<c:forEach items="${hotNewsList }" var="news" >
-				<dd>
-					<ul class="ico3">
+					<c:forEach items="${hotNewsList }" var="news">
+						<dd>
+							<ul class="ico3">
 
-						<li><a
-						href="javascript:preview('news!preview?id=${news.id }')">${news.title }</a></li>
+								<li><a
+									href="javascript:preview('news!preview?id=${news.id }')">${news.title }</a></li>
 
-					</ul>
-					
-				</dd>
-				</c:forEach>
+							</ul>
+
+						</dd>
+					</c:forEach>
 				</c:if>
 			</dl>
 		</div>

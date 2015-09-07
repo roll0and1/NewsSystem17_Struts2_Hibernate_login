@@ -31,4 +31,12 @@ public interface NewsDao {
 			throws AppException;
 
 	List<News> getTypeNews(int i, int state, int num) throws AppException;
+
+	int getCountByType(int state, int newsTypeId) throws AppException;
+
+	List<News> getTypeNewList(int state, int newsTypeId, int currentPage,
+			int size) throws AppException;
+
+	boolean updateClick(int id) throws AppException;
+
 }

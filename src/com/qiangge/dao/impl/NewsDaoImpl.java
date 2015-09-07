@@ -392,4 +392,98 @@ public class NewsDaoImpl implements NewsDao {
 		System.out.println("typeId"+i+"size："+typeNewsList.size());
 		return typeNewsList;
 	}
+
+	@Override
+	public int getCountByType(int state, int newsTypeId) throws AppException {
+		int count = 0;
+		Connection conn = null;
+		PreparedStatement psmt = null;
+		ResultSet rs = null;
+		conn = DBUtil.getConnection();
+
+		String sql = "select count(id) as n from t_news where state=? and newsType_id=? and del=0;";
+		try {
+			psmt = conn.prepareStatement(sql);
+			psmt.setInt(1, state);
+			psmt.setInt(2, newsTypeId);
+			rs = psmt.executeQuery();
+			if (rs.next()) {
+				count = rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			throw new AppException("com.qiangge.dao.impl.NewsImpl.getCountByType");
+		}
+		return count;
+	}
+
+	@Override
+	public List<News> getTypeNewList(int state, int newsTypeId,
+			int currentPage, int size) throws AppException {
+		List<News> newsList = new ArrayList<News>();
+		Connection conn = null;
+		PreparedStatement psmt = null;
+		ResultSet rs = null;
+		conn = DBUtil.getConnection();
+		String sql = "select id ,title,createTime,click "
+				+ "from t_news "
+				+ " where "
+				+ "state=? and newsType_id=? and del=0 "
+				+"order by createTime"
+				+ "limit ?,?;";
+		try {
+			psmt = conn.prepareStatement(sql);
+			psmt.setInt(1, state);
+			psmt.setInt(2, newsTypeId);
+			// 计算起始位置
+			int offset = (currentPage - 1) * size;
+			psmt.setInt(3, offset);
+			psmt.setInt(4, size);
+			rs = psmt.executeQuery();
+			// 循环提取结果集中的信息，保存到newList中
+			while (rs.next()) {
+				News news = new News(); // 实例化对象
+				news.setId(rs.getInt(1));
+				news.setTitle(rs.getString(2));
+				// 截取前10个字符 
+				String createTime = rs.getString(3).substring(0, 10);
+				news.setCreateTime(createTime);
+				news.setClick(rs.getInt(4));
+				newsList.add(news);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new AppException("com.qiangge.dao.impl.NewsImpl.getList");
+		} finally {
+			DBUtil.closeResultSet(rs);
+			DBUtil.closeStatement(psmt);
+			DBUtil.closeConnection(conn);
+		}
+		System.out.println(newsList.size());
+		System.out.println("state" + state);
+		System.out.println("currentPage:" + currentPage);
+		return newsList;
+	}
+
+	@Override
+	public boolean updateClick(int id) throws AppException {
+		
+		boolean flag = false;
+		Connection conn = null;
+		PreparedStatement psmt = null;
+		conn = DBUtil.getConnection();
+		String sql = "update t_news set click=click+1 where id=? and del=0";
+		try {
+			psmt = conn.prepareStatement(sql);
+			psmt.setInt(1, id);
+			psmt.setInt(2, id);
+			psmt.executeUpdate();
+			flag = true;
+		} catch (SQLException e) {
+			throw new AppException("com.qiangge.dao.impl.NewsImpl.updateClick");
+		}
+		return flag;
+	}
+
 }

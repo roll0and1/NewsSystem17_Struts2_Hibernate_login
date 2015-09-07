@@ -16,16 +16,15 @@ import com.qiangge.utils.AppException;
 
 public class NewsAction extends ActionSupport {
 	private News news;
-	private int id;
-
-	NewsService newsService = new NewsService();
-
+	private int id; // 新闻id
+	private int newsTypeId; // 新闻类型id
+	private PageModel pageModel;
 	private int state = 0; // 默认新闻状态
 
-	private PageModel pageModel;
-
 	private int currentPage = 1;
+
 	private int size = 5;
+	NewsService newsService = new NewsService();
 
 	private List<News> hotNewsList; // 热门新闻
 	private List<News> latestNewsList;// 最新新闻
@@ -35,7 +34,6 @@ public class NewsAction extends ActionSupport {
 	private List<News> domesticNewsList;// 国内新闻
 
 	private List<News> sportsNewsList;// 体育新闻
-
 	private List<News> entertainmentNewsList;// 娱乐新闻
 
 	private List<News> autoNewsList;// 汽车新闻
@@ -112,64 +110,89 @@ public class NewsAction extends ActionSupport {
 		}
 	}
 
-	public List<News> getAutoNewsList() {
-		return autoNewsList;
+	/**
+	 * 查看新闻详情并更新点击数
+	 * 
+	 * @return
+	 * @throws AppException
+	 */
+	public String detail() throws AppException {
+		boolean flag = false;
+		try {
+			News typeNews = newsService.preview(id);
+			flag = newsService.updateClick(id);
+			// 将typeNews存入request
+			Map<String, Object> request = (Map<String, Object>) ActionContext
+					.getContext().get("request");
+			request.put("typeNews", typeNews);
+			if(flag){
+				return "typeNewsDetail";
+			}else {
+				return "error";
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "error";
+		}
+		
+
 	}
 
-	public int getCurrentPage() {
-		return currentPage;
+	/**
+	 * 获取分类新闻列表
+	 * 
+	 * @return
+	 * @throws AppException
+	 */
+	public String getTypeNews() throws AppException {
+		int state = 1;
+		try {
+
+			PageModel typeNewsPageModel = newsService.getTypeNews(state,
+					newsTypeId, currentPage, size);
+			// 将typeNewsPageModel存入request
+			Map<String, Object> request = (Map<String, Object>) ActionContext
+					.getContext().get("request");
+			request.put("typeNewsPageModel", typeNewsPageModel);
+			return "typeNews";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "error";
+		}
 	}
 
-	public List<News> getDomesticNewsList() {
-		return domesticNewsList;
-	}
+	public String index() {
 
-	public List<News> getEntertainmentNewsList() {
-		return entertainmentNewsList;
-	}
+		int num = 10;
+		state = 1;
+		try {
+			hotNewsList = newsService.getHotNews(state, num);
+			latestNewsList = newsService.getLatestNews(state, num);
+			internationalNewsList = newsService.getNewsByType(1, state, num);
+			domesticNewsList = newsService.getNewsByType(2, state, num);
+			entertainmentNewsList = newsService.getNewsByType(3, state, num);
+			sportsNewsList = newsService.getNewsByType(4, state, num);
+			financialNewsList = newsService.getNewsByType(5, state, num);
+			autoNewsList = newsService.getNewsByType(6, state, num);
 
-	public List<News> getFinancialNewsList() {
-		return financialNewsList;
-	}
-
-	public List<News> getHotNewsList() {
-		return hotNewsList;
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public List<News> getInternationalNewsList() {
-		return internationalNewsList;
-	}
-
-	public List<News> getLatestNewsList() {
-		return latestNewsList;
-	}
-
-	public News getNews() {
-		return news;
-	}
-
-	public NewsService getNewsService() {
-		return newsService;
-	}
-
-	public PageModel getPageModel() {
-		return pageModel;
-	}
-
-	public int getSize() {
-		return size;
-	}
-
-	public List<News> getSportsNewsList() {
-		return sportsNewsList;
-	}
-
-	public int getState() {
-		return state;
+			// 将newsList存入request
+			Map<String, Object> request = (Map<String, Object>) ActionContext
+					.getContext().get("request");
+			request.put("hotNewsList", hotNewsList);
+			request.put("latestNewsList", latestNewsList);
+			request.put("internationalNewsList", internationalNewsList);
+			request.put("domesticNewsList", domesticNewsList);
+			request.put("entertainmentNewsList", entertainmentNewsList);
+			request.put("sportsNewsList", sportsNewsList);
+			request.put("financialNewsList", financialNewsList);
+			request.put("autoNewsList", autoNewsList);
+			return "index";
+		} catch (AppException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "error";
+		}
 	}
 
 	public String myNews() {
@@ -184,7 +207,8 @@ public class NewsAction extends ActionSupport {
 		}
 		try {
 			// 获取当前用户创建的新闻信息
-			pageModel = newsService.getList(state, userId, currentPage, size);
+			PageModel pageModel = newsService.getList(state, userId,
+					currentPage, size);
 			// // 将newsList存入request
 			Map<String, Object> request = (Map<String, Object>) ActionContext
 					.getContext().get("request");
@@ -220,6 +244,33 @@ public class NewsAction extends ActionSupport {
 			e.printStackTrace();
 			return "error";
 		}
+	}
+
+	public String toUncheck() {
+		// 初始化session
+		Map<String, Object> session = ActionContext.getContext().getSession();
+		// 获取用户信息
+		Integer userId = (Integer) session.get("userId");
+		// 判断用户是否登录
+		if (null == userId) {
+			// 用户未登录，重定向到login
+			return "login";
+		}
+		try {
+			// 获取当前用户创建的新闻信息
+			pageModel = newsService.getList(state, currentPage, size);
+			// 将newsList存入request
+			Map<String, Object> request = (Map<String, Object>) ActionContext
+					.getContext().get("request");
+			request.put("newsPageModel", pageModel);
+			return "check";
+		} catch (AppException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			// 跳转到错误页面
+			return "error";
+		}
+
 	}
 
 	public void setAutoNewsList(List<News> autoNewsList) {
@@ -266,6 +317,10 @@ public class NewsAction extends ActionSupport {
 		this.newsService = newsService;
 	}
 
+	public void setNewsTypeId(int newsTypeId) {
+		this.newsTypeId = newsTypeId;
+	}
+
 	public void setPageModel(PageModel pageModel) {
 		this.pageModel = pageModel;
 	}
@@ -282,6 +337,70 @@ public class NewsAction extends ActionSupport {
 		this.state = state;
 	}
 
+	public List<News> getAutoNewsList() {
+		return autoNewsList;
+	}
+
+	public int getCurrentPage() {
+		return currentPage;
+	}
+
+	public List<News> getDomesticNewsList() {
+		return domesticNewsList;
+	}
+
+	public List<News> getEntertainmentNewsList() {
+		return entertainmentNewsList;
+	}
+
+	public List<News> getFinancialNewsList() {
+		return financialNewsList;
+	}
+
+	public List<News> getHotNewsList() {
+		return hotNewsList;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public List<News> getInternationalNewsList() {
+		return internationalNewsList;
+	}
+
+	public List<News> getLatestNewsList() {
+		return latestNewsList;
+	}
+
+	public News getNews() {
+		return news;
+	}
+
+	public NewsService getNewsService() {
+		return newsService;
+	}
+
+	public int getNewsTypeId() {
+		return newsTypeId;
+	}
+
+	public PageModel getPageModel() {
+		return pageModel;
+	}
+
+	public int getSize() {
+		return size;
+	}
+
+	public List<News> getSportsNewsList() {
+		return sportsNewsList;
+	}
+
+	public int getState() {
+		return state;
+	}
+
 	public String toCreate() {
 		// 获取session
 		Map<String, Object> session = ActionContext.getContext().getSession();
@@ -293,63 +412,4 @@ public class NewsAction extends ActionSupport {
 		}
 	}
 
-	public String toUncheck() {
-		// 初始化session
-		Map<String, Object> session = ActionContext.getContext().getSession();
-		// 获取用户信息
-		Integer userId = (Integer) session.get("userId");
-		// 判断用户是否登录
-		if (null == userId) {
-			// 用户未登录，重定向到login
-			return "login";
-		}
-		try {
-			// 获取当前用户创建的新闻信息
-			pageModel = newsService.getList(state, currentPage, size);
-			// 将newsList存入request
-			Map<String, Object> request = (Map<String, Object>) ActionContext
-					.getContext().get("request");
-			request.put("newsPageModel", pageModel);
-			return "check";
-		} catch (AppException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			// 跳转到错误页面
-			return "error";
-		}
-
-	}
-
-	public String index() {
-		
-		int num = 10;
-		state = 1;
-		try {
-			hotNewsList = newsService.getHotNews(state, num);
-			latestNewsList = newsService.getLatestNews(state, num);
-			internationalNewsList = newsService.getNewsByType(1, state, num);
-			domesticNewsList = newsService.getNewsByType(2, state, num);
-			entertainmentNewsList = newsService.getNewsByType(3, state, num);
-			sportsNewsList = newsService.getNewsByType(4, state, num);
-			financialNewsList = newsService.getNewsByType(5, state, num);
-			autoNewsList = newsService.getNewsByType(6, state, num);
-
-			// 将newsList存入request
-			Map<String, Object> request = (Map<String, Object>) ActionContext
-					.getContext().get("request");
-			request.put("hotNewsList", hotNewsList);
-			request.put("latestNewsList", latestNewsList);
-			request.put("internationalNewsList", internationalNewsList);
-			request.put("domesticNewsList", domesticNewsList);
-			request.put("entertainmentNewsList", entertainmentNewsList);
-			request.put("sportsNewsList", sportsNewsList);
-			request.put("financialNewsList", financialNewsList);
-			request.put("autoNewsList", autoNewsList);
-			return "index";
-		} catch (AppException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return "error";
-		}
-	}
 }

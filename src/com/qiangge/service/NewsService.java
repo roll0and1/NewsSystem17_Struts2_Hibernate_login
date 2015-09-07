@@ -155,14 +155,65 @@ public class NewsService {
 		return latestNewsList;
 	}
 
-	public List<News> getNewsByType(int i, int state, int num) throws AppException{
-		
+	/**
+	 * 获取首页相应类型新闻列表
+	 * 
+	 * @param i
+	 * @param state
+	 * @param num
+	 * @return
+	 * @throws AppException
+	 */
+	public List<News> getNewsByType(int i, int state, int num)
+			throws AppException {
+
 		List<News> typeNewsList = null;
 		try {
-			typeNewsList = newsDao.getTypeNews(i,state, num);
+			typeNewsList = newsDao.getTypeNews(i, state, num);
 		} catch (Exception e) {
 			throw new AppException("com.qiangge.NewService.latestNewsList");
 		}
 		return typeNewsList;
+	}
+
+	/**
+	 * 
+	 * @param state
+	 * @param newsTypeId
+	 * @param currentPage
+	 * @param size
+	 * @return
+	 * @throws AppException
+	 */
+	public PageModel getTypeNews(int state, int newsTypeId, int currentPage,
+			int size) throws AppException {
+		PageModel typeNewsPageModel = new PageModel();
+
+		try {
+			// 获取新闻总数目
+			int totalCount = newsDao.getCountByType(state, newsTypeId);
+			// 获取每页新闻信息
+			List<News> typeNewList = newsDao.getTypeNewList(state, newsTypeId,
+					currentPage, size);
+
+			typeNewsPageModel.setTotalCount(totalCount);
+			typeNewsPageModel.setCurrentPage(currentPage);
+			typeNewsPageModel.setSize(size);
+
+		} catch (Exception e) {
+			throw new AppException("com.qiangge.NewService.getTypeNews");
+		}
+		return typeNewsPageModel;
+	}
+
+	public boolean updateClick(int id) throws AppException {
+		boolean flag = false;
+		try {
+
+			flag = newsDao.updateClick(id);
+		} catch (Exception e) {
+			throw new AppException("com.qiangge.NewService.updateClick");
+		}
+		return flag;
 	}
 }

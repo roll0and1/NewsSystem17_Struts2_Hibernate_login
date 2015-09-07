@@ -41,7 +41,12 @@
 			<result name="toUncheck" type="redirectAction">news!toUncheck
 			</result>
 			<!--跳转到result.jsp -->
-			<result name="index">result.jsp</result>
+			<result name="index">/result.jsp</result>
+			
+			
+			<result name="typeNews">/newsType.jsp</result>
+			<result name="typeNewsDetail">/detail.jsp</result>
+			
 
 		</action>
 
