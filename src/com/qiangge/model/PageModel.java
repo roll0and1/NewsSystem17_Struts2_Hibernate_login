@@ -7,6 +7,16 @@ import java.util.List;
  * 封装分页信息
  */
 public class PageModel {
+	private List<News> typeNewList;
+
+	public List<News> getTypeNewList() {
+		return typeNewList;
+	}
+
+	public void setTypeNewList(List<News> typeNewList) {
+		this.typeNewList = typeNewList;
+	}
+
 	// 结果集
 	private List<NewsModel> newsList;
 	// 查询的总记录数

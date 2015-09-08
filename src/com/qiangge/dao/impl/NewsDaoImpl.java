@@ -426,11 +426,11 @@ public class NewsDaoImpl implements NewsDao {
 		PreparedStatement psmt = null;
 		ResultSet rs = null;
 		conn = DBUtil.getConnection();
-		String sql = "select id ,title,createTime,click "
+		String sql = "select id,title,createTime,click "
 				+ "from t_news "
 				+ " where "
 				+ "state=? and newsType_id=? and del=0 "
-				+"order by createTime"
+				+"order by createTime desc "
 				+ "limit ?,?;";
 		try {
 			psmt = conn.prepareStatement(sql);
@@ -460,9 +460,10 @@ public class NewsDaoImpl implements NewsDao {
 			DBUtil.closeStatement(psmt);
 			DBUtil.closeConnection(conn);
 		}
-		System.out.println(newsList.size());
-		System.out.println("state" + state);
-		System.out.println("currentPage:" + currentPage);
+		System.out.println("getTypeNewList-size:"+newsList.size());
+		System.out.println("getTypeNewList-state:" + state);
+		System.out.println("getTypeNewList-newsTypeId:" + newsTypeId);
+		System.out.println("getTypeNewList-currentPage:" + currentPage);
 		return newsList;
 	}
 
@@ -477,7 +478,6 @@ public class NewsDaoImpl implements NewsDao {
 		try {
 			psmt = conn.prepareStatement(sql);
 			psmt.setInt(1, id);
-			psmt.setInt(2, id);
 			psmt.executeUpdate();
 			flag = true;
 		} catch (SQLException e) {

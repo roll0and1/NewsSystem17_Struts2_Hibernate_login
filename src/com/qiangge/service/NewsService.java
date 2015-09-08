@@ -192,12 +192,14 @@ public class NewsService {
 		try {
 			// 获取新闻总数目
 			int totalCount = newsDao.getCountByType(state, newsTypeId);
+			System.out.println("totalCount:" + totalCount);
 			// 获取每页新闻信息
 			List<News> typeNewList = newsDao.getTypeNewList(state, newsTypeId,
 					currentPage, size);
 
 			typeNewsPageModel.setTotalCount(totalCount);
 			typeNewsPageModel.setCurrentPage(currentPage);
+			typeNewsPageModel.setTypeNewList(typeNewList);
 			typeNewsPageModel.setSize(size);
 
 		} catch (Exception e) {

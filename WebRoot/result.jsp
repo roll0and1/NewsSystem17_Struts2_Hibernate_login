@@ -22,12 +22,6 @@
 <meta http-equiv="cache-control" content="no-cache">
 <meta http-equiv="expires" content="0">
 <link rel="stylesheet" type="text/css" href="css/style.css">
-<script>
-	function preview(url) {
-		window.open(url, '预览',
-				'resizable=no,toolbar=no,width=620,height=500,top=50,left=200');
-	}
-</script>
 
 </head>
 
@@ -40,7 +34,7 @@
 		</div>
 
 		<h1>
-			<a href="index.html"><img src="images/logo.png" width="260"
+			<a href="news!index"><img src="images/logo.png" width="260"
 				height="56" alt="新闻系统" /> </a>
 		</h1>
 	</div>
@@ -52,20 +46,20 @@
 			<li><a href="news!index"><span>主页</span> </a></li>
 
 			<li><a
-				href="news!getTypeNews?state=${state }&newsTypeId=${newsTypeId }&currentPage=${currentPage}&size=${size }"><span>国际新闻</span>
+				href="news!getTypeNews?state=${state }&newsTypeId=1&currentPage=${currentPage}&size=${size }"><span>国际新闻</span>
 			</a></li>
 
-			<li><a href="newsType.htm"><span>国内新闻</span> </a></li>
+			<li><a href="news!getTypeNews?state=${state }&newsTypeId=2&currentPage=${currentPage}&size=${size }"><span>国内新闻</span> </a></li>
 
-			<li><a href="newsType.htm"><span>娱乐新闻</span> </a></li>
+			<li><a href="news!getTypeNews?state=${state }&newsTypeId=3&currentPage=${currentPage}&size=${size }"><span>娱乐新闻</span> </a></li>
 
-			<li><a href="newsType.htm"><span>体育新闻</span> </a></li>
+			<li><a href="news!getTypeNews?state=${state }&newsTypeId=4&currentPage=${currentPage}&size=${size }"><span>体育新闻</span> </a></li>
 
-			<li><a href="newsType.htm"><span>财经频道</span> </a></li>
+			<li><a href="news!getTypeNews?state=${state }&newsTypeId=5&currentPage=${currentPage}&size=${size }"><span>财经频道</span> </a></li>
 
-			<li><a href="newsType.htm"><span>汽车频道</span> </a></li>
+			<li><a href="news!getTypeNews?state=${state }&newsTypeId=6&currentPage=${currentPage}&size=${size }"><span>汽车频道</span> </a></li>
 
-			<li><a href="newsType.htm"><span>电子频道</span> </a></li>
+			<li><a href="news!getTypeNews?state=${state }&newsTypeId=7&currentPage=${currentPage}&size=${size }"><span>电子频道</span> </a></li>
 		</ul>
 
 		<form action="" method="post">
@@ -83,17 +77,16 @@
 		<div class="left">
 			<dl class="tbox">
 				<dt>
-					<strong><a href="newsType.htm">国际新闻</a> </strong><span class="more"><a
-						href="newsType.htm">更多...</a> </span>
+					<strong><a href="news!getTypeNews?state=${state }&newsTypeId=1&currentPage=${currentPage}&size=${size }">国际新闻</a> </strong><span class="more"><a
+						href="news!getTypeNews?state=${state }&newsTypeId=1&currentPage=${currentPage}&size=${size }">更多...</a> </span>
 				</dt>
 				<c:if test="${!empty internationalNewsList }">
 					<c:forEach items="${internationalNewsList }" var="news">
 						<dd>
 							<ul class="ico3">
 
-								<li><a
-									href="javascript:preview('news!preview?id=${news.id }')">${news.title }</a></li>
-
+								<!--查看新闻detail  -->
+								<li><a href="news!detail?id=${news.id }">${news.title }</a></li>
 							</ul>
 
 						</dd>
@@ -103,16 +96,15 @@
 
 			<dl class="tbox">
 				<dt>
-					<strong><a href="newsType.htm">国内新闻</a> </strong><span class="more"><a
-						href="newsType.htm">更多...</a> </span>
+					<strong><a href="news!getTypeNews?state=${state }&newsTypeId=2&currentPage=${currentPage}&size=${size }">国内新闻</a> </strong><span class="more"><a
+						href="news!getTypeNews?state=${state }&newsTypeId=2&currentPage=${currentPage}&size=${size }">更多...</a> </span>
 				</dt>
 				<c:if test="${!empty domesticNewsList }">
 					<c:forEach items="${domesticNewsList }" var="news">
 						<dd>
 							<ul class="ico3">
 
-								<li><a
-									href="javascript:preview('news!preview?id=${news.id }')">${news.title }</a></li>
+								<li><a href="news!detail?id=${news.id }">${news.title }</a></li>
 
 							</ul>
 
@@ -123,16 +115,15 @@
 
 			<dl class="tbox">
 				<dt>
-					<strong><a href="newsType.htm">娱乐新闻</a> </strong><span class="more"><a
-						href="newsType.htm">更多...</a> </span>
+					<strong><a href="news!getTypeNews?state=${state }&newsTypeId=3&currentPage=${currentPage}&size=${size }">娱乐新闻</a> </strong><span class="more"><a
+						href="news!getTypeNews?state=${state }&newsTypeId=3&currentPage=${currentPage}&size=${size }">更多...</a> </span>
 				</dt>
 				<c:if test="${!empty entertainmentNewsList }">
 					<c:forEach items="${entertainmentNewsList }" var="news">
 						<dd>
 							<ul class="ico3">
 
-								<li><a
-									href="javascript:preview('news!preview?id=${news.id }')">${news.title }</a></li>
+								<li><a href="news!detail?id=${news.id }">${news.title }</a></li>
 
 							</ul>
 
@@ -143,16 +134,15 @@
 
 			<dl class="tbox">
 				<dt>
-					<strong><a href="newsType.htm">体育新闻</a> </strong><span class="more"><a
-						href="newsType.htm">更多...</a> </span>
+					<strong><a href="news!getTypeNews?state=${state }&newsTypeId=4&currentPage=${currentPage}&size=${size }">体育新闻</a> </strong><span class="more"><a
+						href="news!getTypeNews?state=${state }&newsTypeId=4&currentPage=${currentPage}&size=${size }">更多...</a> </span>
 				</dt>
 				<c:if test="${!empty sportsNewsList }">
 					<c:forEach items="${sportsNewsList }" var="news">
 						<dd>
 							<ul class="ico3">
 
-								<li><a
-									href="javascript:preview('news!preview?id=${news.id }')">${news.title }</a></li>
+								<li><a href="news!detail?id=${news.id }">${news.title }</a></li>
 
 							</ul>
 
@@ -163,16 +153,15 @@
 
 			<dl class="tbox">
 				<dt>
-					<strong><a href="newsType.htm">财经频道</a> </strong><span class="more"><a
-						href="newsType.htm">更多...</a> </span>
+					<strong><a href="news!getTypeNews?state=${state }&newsTypeId=5&currentPage=${currentPage}&size=${size }">财经频道</a> </strong><span class="more"><a
+						href="news!getTypeNews?state=${state }&newsTypeId=5&currentPage=${currentPage}&size=${size }">更多...</a> </span>
 				</dt>
 				<c:if test="${!empty financialNewsList }">
 					<c:forEach items="${financialNewsList }" var="news">
 						<dd>
 							<ul class="ico3">
 
-								<li><a
-									href="javascript:preview('news!preview?id=${news.id }')">${news.title }</a></li>
+								<li><a href="news!detail?id=${news.id }">${news.title }</a></li>
 
 							</ul>
 
@@ -183,16 +172,15 @@
 
 			<dl class="tbox">
 				<dt>
-					<strong><a href="newsType.htm">汽车频道</a> </strong><span class="more"><a
-						href="newsType.htm">更多...</a> </span>
+					<strong><a href="news!getTypeNews?state=${state }&newsTypeId=6&currentPage=${currentPage}&size=${size }">汽车频道</a> </strong><span class="more"><a
+						href="news!getTypeNews?state=${state }&newsTypeId=6&currentPage=${currentPage}&size=${size }">更多...</a> </span>
 				</dt>
 				<c:if test="${!empty autoNewsList }">
 					<c:forEach items="${autoNewsList }" var="news">
 						<dd>
 							<ul class="ico3">
 
-								<li><a
-									href="javascript:preview('news!preview?id=${news.id }')">${news.title }</a></li>
+								<li><a href="news!detail?id=${news.id }">${news.title }</a></li>
 
 							</ul>
 
@@ -214,8 +202,7 @@
 						<dd>
 							<ul class="ico3">
 
-								<li><a
-									href="javascript:preview('news!preview?id=${news.id }')">${news.title }</a></li>
+								<li><a href="news!detail?id=${news.id }">${news.title }</a></li>
 
 							</ul>
 
@@ -233,8 +220,7 @@
 						<dd>
 							<ul class="ico3">
 
-								<li><a
-									href="javascript:preview('news!preview?id=${news.id }')">${news.title }</a></li>
+								<li><a href="news!detail?id=${news.id }">${news.title }</a></li>
 
 							</ul>
 

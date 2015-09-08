@@ -17,6 +17,7 @@
 			<result name="login" type="redirectAction">toLogin</result>
 			<result name="error" type="redirectAction">toError</result>
 		</global-results>
+	
 		<action name="toError" class="com.qiangge.web.ToErrorAction">
 			<result name="error">/error.jsp</result>
 		</action>
@@ -62,7 +63,7 @@
 			<!--重定向到toEditor -->
 			<result name="toEditor" type="redirectAction">toEditor</result>
 			<!--注销登录 -->
-			<result name="logout" type="redirect">/index.html</result>
+			<result name="logout" type="redirectAction">news!index</result>
 			<!--开始注册或重新注册 -->
 			<result name="register">/register.jsp</result>
 		</action>

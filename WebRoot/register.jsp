@@ -59,21 +59,23 @@
 	<!-- menu start -->
 	<div class="menu">
 		<ul>
-			<li><a href="index.html"><span>主页</span> </a></li>
+			<li><a href="news!index"><span>主页</span> </a></li>
 
-			<li><a href="newsType.html"><span>国际新闻</span> </a></li>
+			<li><a
+				href="news!getTypeNews?state=${state }&newsTypeId=1&currentPage=${currentPage}&size=${size }"><span>国际新闻</span>
+			</a></li>
 
-			<li><a href="newsType.html"><span>国内新闻</span> </a></li>
+			<li><a href="news!getTypeNews?state=${state }&newsTypeId=2&currentPage=${currentPage}&size=${size }"><span>国内新闻</span> </a></li>
 
-			<li><a href="newsType.html"><span>娱乐新闻</span> </a></li>
+			<li><a href="news!getTypeNews?state=${state }&newsTypeId=3&currentPage=${currentPage}&size=${size }"><span>娱乐新闻</span> </a></li>
 
-			<li><a href="newsType.html"><span>体育新闻</span> </a></li>
+			<li><a href="news!getTypeNews?state=${state }&newsTypeId=4&currentPage=${currentPage}&size=${size }"><span>体育新闻</span> </a></li>
 
-			<li><a href="newsType.html"><span>财经频道</span> </a></li>
+			<li><a href="news!getTypeNews?state=${state }&newsTypeId=5&currentPage=${currentPage}&size=${size }"><span>财经频道</span> </a></li>
 
-			<li><a href="newsType.html"><span>汽车频道</span> </a></li>
+			<li><a href="news!getTypeNews?state=${state }&newsTypeId=6&currentPage=${currentPage}&size=${size }"><span>汽车频道</span> </a></li>
 
-			<li><a href="newsType.html"><span>电子频道</span> </a></li>
+			<li><a href="news!getTypeNews?state=${state }&newsTypeId=7&currentPage=${currentPage}&size=${size }"><span>电子频道</span> </a></li>
 		</ul>
 
 		<form action="" method="post">

@@ -111,32 +111,43 @@ public class NewsAction extends ActionSupport {
 	}
 
 	/**
-	 * 查看新闻详情并更新点击数
+	 * 查看新闻详情并更新点击数 同时还得获取最近更新和热点内容板块的新闻列表
 	 * 
 	 * @return
 	 * @throws AppException
 	 */
 	public String detail() throws AppException {
 		boolean flag = false;
+		int num = 10;
+		state = 1;
 		try {
-			News typeNews = newsService.preview(id);
-			flag = newsService.updateClick(id);
+			News typeNews = newsService.preview(id); // 获取新闻
+			flag = newsService.updateClick(id); // 更新点击次数
 			// 将typeNews存入request
 			Map<String, Object> request = (Map<String, Object>) ActionContext
 					.getContext().get("request");
 			request.put("typeNews", typeNews);
-			if(flag){
+
+			// 获取最近更新和热点内容板块的新闻列表
+			hotNewsList = newsService.getHotNews(state, num);
+			latestNewsList = newsService.getLatestNews(state, num);
+
+			// 将newsList存入request
+
+			request.put("hotNewsList", hotNewsList);
+			request.put("latestNewsList", latestNewsList);
+
+			if (flag) {
 				return "typeNewsDetail";
-			}else {
+			} else {
 				return "error";
 			}
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "error";
-		}
-		
 
+		}
 	}
 
 	/**
@@ -151,10 +162,16 @@ public class NewsAction extends ActionSupport {
 
 			PageModel typeNewsPageModel = newsService.getTypeNews(state,
 					newsTypeId, currentPage, size);
+			System.out.println("typesize:"
+					+ typeNewsPageModel.getTypeNewList().size());
 			// 将typeNewsPageModel存入request
 			Map<String, Object> request = (Map<String, Object>) ActionContext
 					.getContext().get("request");
 			request.put("typeNewsPageModel", typeNewsPageModel);
+
+			// 将newsTypeId 存入request
+
+			request.put("newsTypeId", newsTypeId);
 			return "typeNews";
 		} catch (Exception e) {
 			e.printStackTrace();

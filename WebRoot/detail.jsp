@@ -1,5 +1,6 @@
 ﻿<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
-<%@ page language="java" import="com.qiangge.model.*"%>
+<%@
+page language="java" import="com.qiangge.model.*"%>
 <!-- 引入JSTL核心标签库 -->
 <%@taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
 <%
@@ -11,17 +12,12 @@
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
-<head>
 <base href="<%=basePath%>">
 
 
-
-</head>
-
+<head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>新闻系统 - 栏目新闻列表</title>
-<meta name="description" content="软酷新闻发布系统" />
-<meta name="keywords" content="软酷网 新闻发布" />
+<title>新闻系统 - 新闻详情页面</title>
 <link href="css/style.css" rel="stylesheet" type="text/css" />
 </head>
 
@@ -29,7 +25,7 @@
 	<!-- header start -->
 	<div class="header">
 		<div class="toplinks">
-			<span>【<a href="register.jsp">注册</a>】【<a href="login.jsp">登录</a>】
+			<span>【<a href="register.htm">注册</a>】【<a href="login.htm">登录</a>】
 			</span>
 		</div>
 
@@ -61,7 +57,6 @@
 
 			<li><a href="news!getTypeNews?state=${state }&newsTypeId=7&currentPage=${currentPage}&size=${size }"><span>电子频道</span> </a></li>
 		</ul>
-
 		<form action="" method="post">
 			<input type="hidden" name="newstypeId" value="0" /> <input
 				name="name" type="text" class="search-keyword" id="search-keyword"
@@ -76,49 +71,22 @@
 		<!-- left start -->
 		<div class="left">
 			<div class="place">
-				<strong>当前位置:</strong> 主页 &gt; 文章列表
+				<strong>当前位置:</strong> 主页 &gt; 文章查看
 			</div>
-			<!-- place end -->
-			<ul class="newslist">
-				<c:if test="${!empty typeNewsPageModel }">
-					<c:forEach var="news" items="${typeNewsPageModel.typeNewList }">
-						<li><a href="news!detail?id=${news.id }" class="title">${news.title }</a>
-							<small>日期：</small>${news.createTime } <small>点击：</small>${news.click }</li>
 
-					</c:forEach>
+			<div class="viewbox">
+				<c:if test="${!empty typeNews }">
+					<div class="title">
+						<h2>${typeNews.title }</h2>
+					</div>
+					<div class="info">
+						<small>时间:</small>${typeNews.createTime } <small>来源:</small>${typeNews.source }
+						<small>作者:</small>${typeNews.author } <small>点击:</small>${typeNews.click }
+					</div>
+					<div class="content">${typeNews.content }</div>
 				</c:if>
-
-			</ul>
-			<!-- newslist end -->
-
-			<ul class="pagelist">
-				<%
-					PageModel typeNewsPageModel = (PageModel) request
-							.getAttribute("typeNewsPageModel");
-					if (typeNewsPageModel != null) {
-				%>
-				<li><a
-					href="news!getTypeNews?state=${state}&newsTypeId=${ newsTypeId}&currentPage=<%=typeNewsPageModel.getFirstPage()%>&size=${
-				typeNewsPageModel.size }">首页</a></li>
-				<li><a
-					href="news!getTypeNews?state=${state}&newsTypeId=${ newsTypeId}&currentPage=<%=typeNewsPageModel.getPrePage()%>&size=${
-				typeNewsPageModel.size }">上一页</a></li>
-				<li><a
-					href="news!getTypeNews?state=${state}&newsTypeId=${ newsTypeId}&currentPage=<%=typeNewsPageModel.getNextPage()%>&size=${
-				typeNewsPageModel.size }">下一页</a></li>
-				<li><a
-					href="news!getTypeNews?state=${state}&newsTypeId=${ newsTypeId}&currentPage=<%=typeNewsPageModel.getLastPage()%>&size=${
-				typeNewsPageModel.size }">末页</a></li>
-				<li><span class="pageinfo"> 现在是第
-						${typeNewsPageModel.currentPage}页 , 共<%=typeNewsPageModel.getTotalpages()%>
-						页 共${typeNewsPageModel.totalCount}条
-				</span></li>
-			</ul>
-
-			<%
-				}
-			%>
-			<!-- pagelist end -->
+			</div>
+			<!-- viewbox end -->
 
 		</div>
 		<!-- left end -->
@@ -129,36 +97,36 @@
 				<dt>
 					<strong>最新更新</strong>
 				</dt>
-				<dd>
-					<ul class="ico1">
-						<li><a href="#">你所不知道的白岩松</a></li>
-						<li><a href="#">你所不知道的白岩松</a></li>
-						<li><a href="#">你所不知道的白岩松</a></li>
-						<li><a href="#">你所不知道的白岩松</a></li>
-						<li><a href="#">你所不知道的白岩松</a></li>
+				<c:if test="${!empty latestNewsList }">
+					<c:forEach items="${latestNewsList }" var="news">
+						<dd>
+							<ul class="ico3">
 
-					</ul>
-				</dd>
+								<li><a href="news!detail?id=${news.id }">${news.title }</a></li>
+
+							</ul>
+
+						</dd>
+					</c:forEach>
+				</c:if>
 			</dl>
 
 			<dl class="tbox">
 				<dt>
 					<strong>热点内容</strong>
 				</dt>
-				<dd>
-					<ul class="ico2">
-						<li><a href="#">教师节，那些代课老师们</a></li>
-						<li><a href="#">十堰他日必大兴</a></li>
-						<li><a href="#">城市千金，我要远离农村婆婆</a></li>
-						<li><a href="#">你所不知道的白岩松</a></li>
-						<li><a href="#">菲律宾总统再次将香港旅客被劫杀惨剧当笑料</a></li>
-						<li><a href="#">十堰他日必大兴</a></li>
-						<li><a href="#">十堰他日必大兴</a></li>
-						<li><a href="#">你所不知道的白岩松</a></li>
-						<li><a href="#">你所不知道的白岩松</a></li>
-						<li><a href="#">你所不知道的白岩松</a></li>
-					</ul>
-				</dd>
+				<c:if test="${!empty hotNewsList }">
+					<c:forEach items="${hotNewsList }" var="news">
+						<dd>
+							<ul class="ico3">
+
+								<li><a href="news!detail?id=${news.id }">${news.title }</a></li>
+
+							</ul>
+
+						</dd>
+					</c:forEach>
+				</c:if>
 			</dl>
 		</div>
 		<!-- right end -->
