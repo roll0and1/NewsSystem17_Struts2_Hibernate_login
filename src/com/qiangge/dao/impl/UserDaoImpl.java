@@ -4,6 +4,14 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
+
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.cfg.Configuration;
+import org.hibernate.service.ServiceRegistryBuilder;
 
 import com.qiangge.dao.UserDao;
 import com.qiangge.model.User;
@@ -15,53 +23,70 @@ public class UserDaoImpl implements UserDao {
 	public boolean isExist(String name) throws AppException {
 		// 操作标志
 		boolean flag = true;
-		Connection conn = null;
-		PreparedStatement psmt = null;
-		ResultSet rs = null;
-		conn = DBUtil.getConnection(); // 创建数据库连接
-		// 声明操作语句：将用户信息保存到数据库中， “？”为占位符
-		String sql = "select * from t_user where name=?";
 		try {
-			psmt = conn.prepareStatement(sql);
-			psmt.setString(1, name);
-			rs = psmt.executeQuery();
-			if (rs.next() == false) {
-				flag = false;
-			} else {
+			// 定义hql语句，根据用户名查询记录数，？为占位符
+			String hql = "from User u where u.del=0 and u.name=?";
+			// 1.读取配置文件hibernate.hbm.xml初始化SessionFactory
+			SessionFactory sf = null;
+			Configuration cfg = new Configuration().configure();
+			sf = cfg.buildSessionFactory(new ServiceRegistryBuilder()
+					.applySettings(cfg.getProperties()).buildServiceRegistry());
+			System.out.println("sf:"+sf);
+			// 2.获取session
+			Session session = sf.openSession();
+			System.out.println("session:"+session);
+			// 3.获取query对象
+			Query query = session.createQuery(hql);
+			System.out.println("query:"+query);
+			// 设置占位符
+			query.setString(0, name);
+			// 4.进行查询
+			List list = query.list();
+			
+			System.out.println("Size:"+list.size());
+			if (list.size() > 0) {// 如果size>0，表示存在该用户，修改标识符为true
 				flag = true;
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
+			// 关闭session
+			if (session != null && session.isOpen()) {
+				session.close();
+			}
+		} catch (Exception e) {
 			throw new AppException("com.qiangge.dao.impl.isExist");
-		} finally {
-			DBUtil.closeResultSet(rs);
-			DBUtil.closeStatement(psmt);
-			DBUtil.closeConnection(conn);
 		}
+
 		return flag;
 	}
 
 	public boolean add(User user) throws AppException {
 		// 操作标志
 		boolean flag = false;
-		Connection conn = null;
-		PreparedStatement psmt = null;
-		conn = DBUtil.getConnection(); // 创建数据库连接
-		// 声明操作语句：将用户信息保存到数据库中， “？”为占位符
-		String sql = "insert into t_user(name,password) values (?,?);";
 		try {
-			psmt = conn.prepareStatement(sql);
-			psmt.setString(1, user.getName());
-			psmt.setString(2, user.getPassword());
-			psmt.executeUpdate();
-			flag = true;
 
-		} catch (SQLException e) {
-			e.printStackTrace();
+			// 1.读取配置文件hibernate.hbm.xml初始化SessionFactory
+			SessionFactory sf = null;
+			Configuration cfg = new Configuration().configure();
+			sf = cfg.buildSessionFactory(new ServiceRegistryBuilder()
+					.applySettings(cfg.getProperties()).buildServiceRegistry());
+			// 2.获取session
+			Session session = sf.openSession();
+			// 3.获取事务
+			Transaction transaction = session.beginTransaction();
+			session.save(user);
+			transaction.commit();
+
+			System.out.println("持久化对象的id为：" + user.getId());
+
+			// 获取用户的id，若大于0表示添加成功
+			if (user.getId() > 0) {
+				flag = true;
+			}
+			// 关闭session
+			if (session != null && session.isOpen()) {
+				session.close();
+			}
+		} catch (Exception e) {
 			throw new AppException("com.qiangge.dao.impl.add");
-		} finally {
-			DBUtil.closeStatement(psmt);
-			DBUtil.closeConnection(conn);
 		}
 
 		return flag;
@@ -127,5 +152,4 @@ public class UserDaoImpl implements UserDao {
 		return role;
 	}
 
-	
 }
