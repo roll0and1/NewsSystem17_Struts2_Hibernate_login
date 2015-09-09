@@ -151,23 +151,30 @@ public class NewsAction extends ActionSupport {
 	}
 
 	/**
-	 * 获取分类新闻列表
+	 * 获取分类新闻列表 同时还得获取最近更新和热点内容板块的新闻列表
 	 * 
 	 * @return
 	 * @throws AppException
 	 */
 	public String getTypeNews() throws AppException {
 		int state = 1;
+		int num = 10;
 		try {
 
 			PageModel typeNewsPageModel = newsService.getTypeNews(state,
 					newsTypeId, currentPage, size);
 			System.out.println("typesize:"
 					+ typeNewsPageModel.getTypeNewList().size());
-			// 将typeNewsPageModel存入request
+			// 获取最近更新和热点内容板块的新闻列表
+			hotNewsList = newsService.getHotNews(state, num);
+			latestNewsList = newsService.getLatestNews(state, num);
+
+			// 将typeNewsPageModel，newsList存入request
 			Map<String, Object> request = (Map<String, Object>) ActionContext
 					.getContext().get("request");
 			request.put("typeNewsPageModel", typeNewsPageModel);
+			request.put("hotNewsList", hotNewsList);
+			request.put("latestNewsList", latestNewsList);
 
 			// 将newsTypeId 存入request
 

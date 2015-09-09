@@ -25,7 +25,7 @@ page language="java" import="com.qiangge.model.*"%>
 	<!-- header start -->
 	<div class="header">
 		<div class="toplinks">
-			<span>【<a href="register.htm">注册</a>】【<a href="login.htm">登录</a>】
+			<span>【<a href="register.jsp">注册</a>】【<a href="login.jsp">登录</a>】
 			</span>
 		</div>
 

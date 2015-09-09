@@ -129,36 +129,36 @@
 				<dt>
 					<strong>最新更新</strong>
 				</dt>
-				<dd>
-					<ul class="ico1">
-						<li><a href="#">你所不知道的白岩松</a></li>
-						<li><a href="#">你所不知道的白岩松</a></li>
-						<li><a href="#">你所不知道的白岩松</a></li>
-						<li><a href="#">你所不知道的白岩松</a></li>
-						<li><a href="#">你所不知道的白岩松</a></li>
+				<c:if test="${!empty latestNewsList }">
+					<c:forEach items="${latestNewsList }" var="news">
+						<dd>
+							<ul class="ico3">
 
-					</ul>
-				</dd>
+								<li><a href="news!detail?id=${news.id }">${news.title }</a></li>
+
+							</ul>
+
+						</dd>
+					</c:forEach>
+				</c:if>
 			</dl>
 
 			<dl class="tbox">
 				<dt>
 					<strong>热点内容</strong>
 				</dt>
-				<dd>
-					<ul class="ico2">
-						<li><a href="#">教师节，那些代课老师们</a></li>
-						<li><a href="#">十堰他日必大兴</a></li>
-						<li><a href="#">城市千金，我要远离农村婆婆</a></li>
-						<li><a href="#">你所不知道的白岩松</a></li>
-						<li><a href="#">菲律宾总统再次将香港旅客被劫杀惨剧当笑料</a></li>
-						<li><a href="#">十堰他日必大兴</a></li>
-						<li><a href="#">十堰他日必大兴</a></li>
-						<li><a href="#">你所不知道的白岩松</a></li>
-						<li><a href="#">你所不知道的白岩松</a></li>
-						<li><a href="#">你所不知道的白岩松</a></li>
-					</ul>
-				</dd>
+				<c:if test="${!empty hotNewsList }">
+					<c:forEach items="${hotNewsList }" var="news">
+						<dd>
+							<ul class="ico3">
+
+								<li><a href="news!detail?id=${news.id }">${news.title }</a></li>
+
+							</ul>
+
+						</dd>
+					</c:forEach>
+				</c:if>
 			</dl>
 		</div>
 		<!-- right end -->
