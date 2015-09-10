@@ -5,7 +5,7 @@
 
 <hibernate-mapping>
 	<!--类和表名映射 -->
-	<class name="com.qiangge.model.User">
+	<class name="com.qiangge.model.User" table="t_user">
 
 		<!--主键产生方式 -->
 		<id name="id" column="id">
