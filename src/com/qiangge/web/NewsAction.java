@@ -24,7 +24,7 @@ public class NewsAction extends ActionSupport {
 	private int currentPage = 1;
 
 	private int size = 5;
-	NewsService newsService = new NewsService();
+	NewsService newsService;
 
 	private List<News> hotNewsList; // 热门新闻
 	private List<News> latestNewsList;// 最新新闻

@@ -1,7 +1,6 @@
 package com.qiangge.service;
 
 import com.qiangge.dao.UserDao;
-import com.qiangge.dao.impl.UserDaoImpl;
 import com.qiangge.model.User;
 import com.qiangge.utils.AppException;
 
@@ -12,7 +11,15 @@ import com.qiangge.utils.AppException;
  */
 
 public class UserService {
-	private UserDao userDao = new UserDaoImpl();
+	private UserDao userDao ;
+
+	public UserDao getUserDao() {
+		return userDao;
+	}
+
+	public void setUserDao(UserDao userDao) {
+		this.userDao = userDao;
+	}
 
 	/**
 	 * 

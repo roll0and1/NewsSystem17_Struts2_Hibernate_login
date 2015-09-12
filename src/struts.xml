@@ -29,7 +29,7 @@
 
 	<!--news package -->
 	<package name="news" extends="base">
-		<action name="news" class="com.qiangge.web.NewsAction">
+		<action name="news" class="newsAction">
 			<!--访问创建新闻的页面 -->
 			<result name="create">/createNews.jsp</result>
 			<!--访问我的新闻页面 -->
@@ -55,7 +55,7 @@
 
 	<!--user package -->
 	<package name="user" extends="base">
-		<action name="user" class="com.qiangge.web.UserAction">
+		<action name="user" class="userAction">
 			<!--访问登录页面 -->
 			<result name="toLogin">/login.jsp</result>
 			<!--重定向到toAdmin -->

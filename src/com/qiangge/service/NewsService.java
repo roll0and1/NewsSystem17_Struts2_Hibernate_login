@@ -3,7 +3,6 @@ package com.qiangge.service;
 import java.util.List;
 
 import com.qiangge.dao.NewsDao;
-import com.qiangge.dao.impl.NewsDaoImpl;
 import com.qiangge.model.News;
 import com.qiangge.model.NewsModel;
 import com.qiangge.model.PageModel;
@@ -16,7 +15,15 @@ import com.qiangge.utils.AppException;
  * 
  */
 public class NewsService {
-	private NewsDao newsDao = new NewsDaoImpl();
+	private NewsDao newsDao;
+
+	public NewsDao getNewsDao() {
+		return newsDao;
+	}
+
+	public void setNewsDao(NewsDao newsDao) {
+		this.newsDao = newsDao;
+	}
 
 	/**
 	 * 创建新闻

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.springframework.org/schema/context
+http://www.springframework.org/schema/context/spring-context.xsd
+http://www.springframework.org/schema/aop 
+http://www.springframework.org/schema/aop/spring-aop-4.0.xsd">
+
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+		<!-- results in a setDriverClassName(String) call -->
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://localhost:3306/newssystem" />
+		<property name="username" value="root" />
+		<property name="password" value="zhazha" />
+	</bean>
+
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		<!-- configuration elided for brevity -->
+		<property name="dataSource" ref="dataSource" />
+		<property name="hibernateProperties">
+			<props>
+				<!-- 指定数据库方言 -->
+				<prop key="hibernate.dialect"> org.hibernate.dialect.MySQLInnoDBDialect</prop>
+				<!-- 是否根据需要每次自动创建数据库 -->
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
+				<!-- 显示Hibernate持久化操作所生成的SQL -->
+				<prop key="hibernate.show_sql">true</prop>
+				<!-- 将SQL脚本进行格式化后再输出 -->
+				<prop key="hibernate.format_sql">true</prop>
+			</props>
+		</property>
+		<property name="mappingResources">
+			<list>
+				<value>com/qiangge/model/User.hbm.xml</value>
+				<value>com/qiangge/model/News.hbm.xml</value>
+				<value>com/qiangge/model/NewsType.hbm.xml</value>
+			</list>
+		</property>
+
+	</bean>
+
+
+	<!--userDaoImpl中注入 sessionFactory -->
+	<bean id="userDao" class="com.qiangge.dao.impl.UserDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+
+	<!--newsDaoImpl中注入 sessionFactory -->
+	<bean id="newsDao" class="com.qiangge.dao.impl.NewsDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+
+
+
+	<!--userDaoImpl注入到userService -->
+	<bean id="userService" class="com.qiangge.service.UserService">
+		<property name="userDao" ref="userDao"></property>
+	</bean>
+
+	<!--newsDaoImpl注入到newsService -->
+	<bean id="newsService" class="com.qiangge.service.NewsService">
+		<property name="newsDao" ref="newsDao"></property>
+	</bean>
+
+
+	<!--userService注入到userAction -->
+	<bean id="userAction" class="com.qiangge.web.UserAction">
+		<property name="userService" ref="userService"></property>
+	</bean>
+	<!--newsService注入到NewsAction -->
+	<bean id="newsAction" class="com.qiangge.web.NewsAction">
+		<property name="newsService" ref="newsService"></property>
+	</bean>
+
+
+
+
+
+
+
+
+</beans>

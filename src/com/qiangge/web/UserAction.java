@@ -27,7 +27,15 @@ public class UserAction extends ActionSupport {
 
 	private String message; // 提示信息
 
-	private UserService userService = new UserService();
+	private UserService userService;
+
+	public UserService getUserService() {
+		return userService;
+	}
+
+	public void setUserService(UserService userService) {
+		this.userService = userService;
+	}
 
 	public String getMessage() {
 		return message;
@@ -126,7 +134,7 @@ public class UserAction extends ActionSupport {
 			// 将message 放入request
 			request.put("message", message);
 			return result;
-		} catch (AppException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			// 系统异常
 			return "error";

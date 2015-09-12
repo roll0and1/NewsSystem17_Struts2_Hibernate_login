@@ -5,16 +5,20 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
-import com.mysql.jdbc.Statement;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.springframework.orm.hibernate4.support.HibernateDaoSupport;
+
 import com.qiangge.dao.NewsDao;
 import com.qiangge.model.News;
 import com.qiangge.model.NewsModel;
 import com.qiangge.utils.AppException;
 import com.qiangge.utils.DBUtil;
 
-public class NewsDaoImpl implements NewsDao {
+public class NewsDaoImpl extends HibernateDaoSupport implements NewsDao {
 	/**
 	 * 添加新闻
 	 */
@@ -22,43 +26,21 @@ public class NewsDaoImpl implements NewsDao {
 	public boolean add(News news) throws AppException {
 		// 操作标志
 		boolean flag = false;
-		Connection conn = null;
-		PreparedStatement psmt = null;
-		ResultSet rs = null;
-		conn = DBUtil.getConnection(); // 创建数据库连接
-		// 声明操作语句：将用户信息保存到数据库中， “？”为占位符
-		String sql = "insert into t_news(user_id,newsType_id,title,author,keywords,source,content,createTime,state) values (?,?,?,?,?,?,?,?,?);";
 		try {
-			// bug
-			psmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			
+			this.getHibernateTemplate().save(news);
 
-			psmt.setInt(1, news.getUserId());
-			psmt.setInt(2, news.getNewsTypeId());
-			psmt.setString(3, news.getTitle());
-			psmt.setString(4, news.getAuthor());
-			psmt.setString(5, news.getKeywords());
-			psmt.setString(6, news.getSource());
-			psmt.setString(7, news.getContent());
-			psmt.setString(8, news.getCreateTime());
-			psmt.setInt(9, news.getState());
-			// 执行更新
-			psmt.executeUpdate();
-			// 得到插入行的主键，结果中只有一条记录
-			rs = psmt.getGeneratedKeys();
-			if (rs.next()) {
+			if (news.getId() > 0) {
 				// 获取主键的值并设置到news对象中（添加附件时会用到）
-				news.setId(rs.getInt(1));
+				news.setId(news.getId());
 				flag = true;
 			}
 
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			throw new AppException("com.qiangge.dao.impl.NewsImpl.add");
-		} finally {
-			DBUtil.closeStatement(psmt);
-			DBUtil.closeConnection(conn);
-		}
 
+		}
 		return flag;
 	}
 
@@ -66,41 +48,32 @@ public class NewsDaoImpl implements NewsDao {
 	 * 获取用户的新闻
 	 */
 	@Override
+	// 查询时，本人没有开启事务 ???
 	public List<NewsModel> getList(int state, int userId) throws AppException {
+		Session session = null;
 		List<NewsModel> newsList = new ArrayList<NewsModel>();
-		Connection conn = null;
-		PreparedStatement psmt = null;
-		ResultSet rs = null;
-		conn = DBUtil.getConnection();
 		String sql = "select t_news.id ,t_news.title,t_newstype.name,t_news.createTime,t_news.source "
 				+ "from t_news,t_newstype"
 				+ " where "
 				+ "t_news.state=? and t_news.user_id=? "
 				+ "and t_news.newsType_id=t_newstype.id" + " and t_news.del=0;";
 		try {
-			psmt = conn.prepareStatement(sql);
-			psmt.setInt(1, state);
-			psmt.setInt(2, userId);
-			rs = psmt.executeQuery();
+			session = this.getSessionFactory().openSession();
+			Query query = session.createSQLQuery(sql);
+			query.setInteger(0, state);
+			query.setInteger(1, userId);
+			Iterator<?> iterator = query.iterate();
 			// 循环提取结果集中的信息，保存到newList中
-			while (rs.next()) {
-				NewsModel newsModel = new NewsModel(); // 实例化对象
-				newsModel.setId(rs.getInt(1));
-				newsModel.setTitle(rs.getString(2));
-				newsModel.setNewsType(rs.getString(3));
-				// 截取前19个字符 ，否则会显示出“.0”
-				String createTime = rs.getString(4).substring(0, 19);
-				newsModel.setCreateTime(createTime);
-				newsModel.setSource(rs.getString(5));
+			while (iterator.hasNext()) {
+				NewsModel newsModel = (NewsModel) iterator.next(); // 实例化对象
+
 				newsList.add(newsModel);
 			}
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			throw new AppException("com.qiangge.dao.impl.NewsImpl.getList");
 		} finally {
-			DBUtil.closeResultSet(rs);
-			DBUtil.closeStatement(psmt);
-			DBUtil.closeConnection(conn);
+			session.close();
 		}
 		System.out.println(newsList.size());
 		return newsList;
@@ -114,10 +87,7 @@ public class NewsDaoImpl implements NewsDao {
 	public List<NewsModel> getList(int state, int userId, int currentPage,
 			int size) throws AppException {
 		List<NewsModel> newsList = new ArrayList<NewsModel>();
-		Connection conn = null;
-		PreparedStatement psmt = null;
-		ResultSet rs = null;
-		conn = DBUtil.getConnection();
+		Session session = null;
 		String sql = "select t_news.id ,t_news.title,t_newstype.name,t_news.createTime,t_news.source "
 				+ "from t_news,t_newstype"
 				+ " where "
@@ -126,15 +96,16 @@ public class NewsDaoImpl implements NewsDao {
 				+ " and t_news.del=0 "
 				+ "limit ?,?;";
 		try {
-			psmt = conn.prepareStatement(sql);
-			psmt.setInt(1, state);
-			psmt.setInt(2, userId);
+			session = this.getSessionFactory().openSession();
+			Query query = session.createSQLQuery(sql);
+			query.setInteger(1, state);
+			query.setInteger(2, userId);
 
 			// 计算起始位置
 			int offset = (currentPage - 1) * size;
-			psmt.setInt(3, offset);
-			psmt.setInt(4, size);
-			rs = psmt.executeQuery();
+			query.setInteger(3, offset);
+			query.setInteger(4, size);
+			Iterator<?> iterator = query.iterate();
 			// 循环提取结果集中的信息，保存到newList中
 			while (rs.next()) {
 				NewsModel newsModel = new NewsModel(); // 实例化对象
@@ -380,16 +351,15 @@ public class NewsDaoImpl implements NewsDao {
 			rs = psmt.executeQuery();
 			while (rs.next()) {
 				News news = new News();
-				
+
 				news.setId(rs.getInt(1));
 				news.setTitle(rs.getString(2));
 				typeNewsList.add(news);
 			}
 		} catch (Exception e) {
-			throw new AppException(
-					"com.qiangge.dao.impl.NewsImpl.getTypeNews");
+			throw new AppException("com.qiangge.dao.impl.NewsImpl.getTypeNews");
 		}
-		System.out.println("typeId"+i+"size："+typeNewsList.size());
+		System.out.println("typeId" + i + "size：" + typeNewsList.size());
 		return typeNewsList;
 	}
 
@@ -413,7 +383,8 @@ public class NewsDaoImpl implements NewsDao {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			throw new AppException("com.qiangge.dao.impl.NewsImpl.getCountByType");
+			throw new AppException(
+					"com.qiangge.dao.impl.NewsImpl.getCountByType");
 		}
 		return count;
 	}
@@ -426,12 +397,9 @@ public class NewsDaoImpl implements NewsDao {
 		PreparedStatement psmt = null;
 		ResultSet rs = null;
 		conn = DBUtil.getConnection();
-		String sql = "select id,title,createTime,click "
-				+ "from t_news "
-				+ " where "
-				+ "state=? and newsType_id=? and del=0 "
-				+"order by createTime desc "
-				+ "limit ?,?;";
+		String sql = "select id,title,createTime,click " + "from t_news "
+				+ " where " + "state=? and newsType_id=? and del=0 "
+				+ "order by createTime desc " + "limit ?,?;";
 		try {
 			psmt = conn.prepareStatement(sql);
 			psmt.setInt(1, state);
@@ -446,7 +414,7 @@ public class NewsDaoImpl implements NewsDao {
 				News news = new News(); // 实例化对象
 				news.setId(rs.getInt(1));
 				news.setTitle(rs.getString(2));
-				// 截取前10个字符 
+				// 截取前10个字符
 				String createTime = rs.getString(3).substring(0, 10);
 				news.setCreateTime(createTime);
 				news.setClick(rs.getInt(4));
@@ -460,7 +428,7 @@ public class NewsDaoImpl implements NewsDao {
 			DBUtil.closeStatement(psmt);
 			DBUtil.closeConnection(conn);
 		}
-		System.out.println("getTypeNewList-size:"+newsList.size());
+		System.out.println("getTypeNewList-size:" + newsList.size());
 		System.out.println("getTypeNewList-state:" + state);
 		System.out.println("getTypeNewList-newsTypeId:" + newsTypeId);
 		System.out.println("getTypeNewList-currentPage:" + currentPage);
@@ -469,7 +437,7 @@ public class NewsDaoImpl implements NewsDao {
 
 	@Override
 	public boolean updateClick(int id) throws AppException {
-		
+
 		boolean flag = false;
 		Connection conn = null;
 		PreparedStatement psmt = null;
