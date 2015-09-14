@@ -95,7 +95,7 @@ public class NewsDaoImpl extends HibernateDaoSupport implements NewsDao {
 				+ "and t_news.newsType_id=t_newstype.id"
 				+ " and t_news.del=0 "
 				+ "limit ?,?;";
-		try {
+//		try {
 			session = this.getSessionFactory().openSession();
 			Query query = session.createSQLQuery(sql);
 			query.setInteger(1, state);
@@ -107,30 +107,30 @@ public class NewsDaoImpl extends HibernateDaoSupport implements NewsDao {
 			query.setInteger(4, size);
 			Iterator<?> iterator = query.iterate();
 			// 循环提取结果集中的信息，保存到newList中
-			while (rs.next()) {
-				NewsModel newsModel = new NewsModel(); // 实例化对象
-				newsModel.setId(rs.getInt(1));
-				newsModel.setTitle(rs.getString(2));
-				newsModel.setNewsType(rs.getString(3));
-				// 截取前19个字符 ，否则会显示出“.0”
-				String createTime = rs.getString(4).substring(0, 19);
-				newsModel.setCreateTime(createTime);
-				newsModel.setSource(rs.getString(5));
-				newsList.add(newsModel);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new AppException("com.qiangge.dao.impl.NewsImpl.getList");
-		} finally {
-			DBUtil.closeResultSet(rs);
-			DBUtil.closeStatement(psmt);
-			DBUtil.closeConnection(conn);
-		}
+//			while (rs.next()) {
+//				NewsModel newsModel = new NewsModel(); // 实例化对象
+//				newsModel.setId(rs.getInt(1));
+//				newsModel.setTitle(rs.getString(2));
+//				newsModel.setNewsType(rs.getString(3));
+//				// 截取前19个字符 ，否则会显示出“.0”
+//				String createTime = rs.getString(4).substring(0, 19);
+//				newsModel.setCreateTime(createTime);
+//				newsModel.setSource(rs.getString(5));
+//				newsList.add(newsModel);
+//			}
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//			throw new AppException("com.qiangge.dao.impl.NewsImpl.getList");
+//		} finally {
+//			DBUtil.closeResultSet(rs);
+//			DBUtil.closeStatement(psmt);
+//			DBUtil.closeConnection(conn);
+//		}
 		System.out.println(newsList.size());
 		System.out.println("state" + state);
 		System.out.println("userId:" + userId);
 		System.out.println("currentPage:" + currentPage);
-		return newsList;
+		return null;
 	}
 
 	@Override

@@ -45,7 +45,8 @@ public class UserDaoImpl extends HibernateDaoSupport implements UserDao {
 			}
 
 		} catch (Exception e) {
-			throw new AppException("com.qiangge.dao.impl.add");
+			// throw new AppException("com.qiangge.dao.impl.add");
+			e.printStackTrace();
 		}
 
 		return flag;

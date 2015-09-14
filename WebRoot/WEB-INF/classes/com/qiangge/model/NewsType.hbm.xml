@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<!--类和表名映射 -->
+	<class name="com.qiangge.model.NewsType" table="t_newstype">
+
+		<!--主键产生方式 -->
+		<id name="id" column="id">
+			<generator class="identity" />
+		</id>
+
+		<!--类中其他属性和表中字段关联 -->
+		<property name="name" not-null="true" column="name" />
+		<property name="description" column="description" />
+		<property name="createTime" not-null="true" column="createTime" />
+		<property name="orders" column="orders" />
+		<property name="del" not-null="true" column="del" />
+
+	</class>
+
+</hibernate-mapping>
