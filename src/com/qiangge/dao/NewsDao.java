@@ -30,7 +30,7 @@ public interface NewsDao {
 	List<News> getlatestNewsByCreateTime(int state, int num)
 			throws AppException;
 
-	List<News> getTypeNews(int i, int state, int num) throws AppException;
+	List<News> getTypeNews(int newTypeId, int state, int num) throws AppException;
 
 	int getCountByType(int state, int newsTypeId) throws AppException;
 

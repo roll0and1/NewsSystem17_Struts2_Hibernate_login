@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 http://www.springframework.org/schema/beans/spring-beans.xsd
 http://www.springframework.org/schema/context
 http://www.springframework.org/schema/context/spring-context.xsd
 http://www.springframework.org/schema/aop 
-http://www.springframework.org/schema/aop/spring-aop-4.0.xsd">
+http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+http://www.springframework.org/schema/tx
+      http://www.springframework.org/schema/tx/spring-tx.xsd">
+
 
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
 		<!-- results in a setDriverClassName(String) call -->
@@ -28,7 +31,7 @@ http://www.springframework.org/schema/aop/spring-aop-4.0.xsd">
 				<!-- 是否根据需要每次自动创建数据库 -->
 				<prop key="hibernate.hbm2ddl.auto">update</prop>
 				<!-- 显示Hibernate持久化操作所生成的SQL -->
-				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.show_sql">false</prop>
 				<!-- 将SQL脚本进行格式化后再输出 -->
 				<prop key="hibernate.format_sql">true</prop>
 			</props>
@@ -42,6 +45,26 @@ http://www.springframework.org/schema/aop/spring-aop-4.0.xsd">
 		</property>
 
 	</bean>
+
+	<!-- 定义事务管理器（声明式的事务） -->
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="*" propagation="REQUIRED" />
+
+		</tx:attributes>
+	</tx:advice>
+
+	<aop:config>
+		<aop:pointcut id="txServices"
+			expression="execution(* com.qiangge.service..*.*(..))" />
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="txServices" />
+	</aop:config>
+
 
 
 	<!--userDaoImpl中注入 sessionFactory -->

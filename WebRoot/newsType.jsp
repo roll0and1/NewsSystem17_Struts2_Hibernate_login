@@ -46,20 +46,20 @@
 			<li><a href="news!index"><span>主页</span> </a></li>
 
 			<li><a
-				href="news!getTypeNews?state=${state }&newsTypeId=1&currentPage=${currentPage}&size=${size }"><span>国际新闻</span>
+				href="news!getTypeNews?typeNewsState=${typeNewsState }&newsTypeId=1&typeNewsCurrentPage=${typeNewsCurrentPage}&size=${size }"><span>国际新闻</span>
 			</a></li>
 
-			<li><a href="news!getTypeNews?state=${state }&newsTypeId=2&currentPage=${currentPage}&size=${size }"><span>国内新闻</span> </a></li>
+			<li><a href="news!getTypeNews?typeNewsState=${typeNewsState }&newsTypeId=2&typeNewsCurrentPage=${typeNewsCurrentPage}&size=${size }"><span>国内新闻</span> </a></li>
 
-			<li><a href="news!getTypeNews?state=${state }&newsTypeId=3&currentPage=${currentPage}&size=${size }"><span>娱乐新闻</span> </a></li>
+			<li><a href="news!getTypeNews?typeNewsState=${typeNewsState }&newsTypeId=3&typeNewsCurrentPage=${typeNewsCurrentPage}&size=${size }"><span>娱乐新闻</span> </a></li>
 
-			<li><a href="news!getTypeNews?state=${state }&newsTypeId=4&currentPage=${currentPage}&size=${size }"><span>体育新闻</span> </a></li>
+			<li><a href="news!getTypeNews?typeNewsState=${typeNewsState }&newsTypeId=4&typeNewsCurrentPage=${typeNewsCurrentPage}&size=${size }"><span>体育新闻</span> </a></li>
 
-			<li><a href="news!getTypeNews?state=${state }&newsTypeId=5&currentPage=${currentPage}&size=${size }"><span>财经频道</span> </a></li>
+			<li><a href="news!getTypeNews?typeNewsState=${typeNewsState }&newsTypeId=5&typeNewsCurrentPage=${typeNewsCurrentPage}&size=${size }"><span>财经频道</span> </a></li>
 
-			<li><a href="news!getTypeNews?state=${state }&newsTypeId=6&currentPage=${currentPage}&size=${size }"><span>汽车频道</span> </a></li>
+			<li><a href="news!getTypeNews?typeNewsState=${typeNewsState }&newsTypeId=6&typeNewsCurrentPage=${typeNewsCurrentPage}&size=${size }"><span>汽车频道</span> </a></li>
 
-			<li><a href="news!getTypeNews?state=${state }&newsTypeId=7&currentPage=${currentPage}&size=${size }"><span>电子频道</span> </a></li>
+			<li><a href="news!getTypeNews?typeNewsState=${typeNewsState }&newsTypeId=7&typeNewsCurrentPage=${typeNewsCurrentPage}&size=${size }"><span>电子频道</span> </a></li>
 		</ul>
 
 		<form action="" method="post">
@@ -98,16 +98,16 @@
 					if (typeNewsPageModel != null) {
 				%>
 				<li><a
-					href="news!getTypeNews?state=${state}&newsTypeId=${ newsTypeId}&currentPage=<%=typeNewsPageModel.getFirstPage()%>&size=${
+					href="news!getTypeNews?typeNewsState=${typeNewsState}&newsTypeId=${ newsTypeId}&typeNewsCurrentPage=<%=typeNewsPageModel.getFirstPage()%>&size=${
 				typeNewsPageModel.size }">首页</a></li>
 				<li><a
-					href="news!getTypeNews?state=${state}&newsTypeId=${ newsTypeId}&currentPage=<%=typeNewsPageModel.getPrePage()%>&size=${
+					href="news!getTypeNews?typeNewsState=${typeNewsState}&newsTypeId=${ newsTypeId}&typeNewsCurrentPage=<%=typeNewsPageModel.getPrePage()%>&size=${
 				typeNewsPageModel.size }">上一页</a></li>
 				<li><a
-					href="news!getTypeNews?state=${state}&newsTypeId=${ newsTypeId}&currentPage=<%=typeNewsPageModel.getNextPage()%>&size=${
+					href="news!getTypeNews?typeNewsState=${typeNewsState}&newsTypeId=${ newsTypeId}&typeNewsCurrentPage=<%=typeNewsPageModel.getNextPage()%>&size=${
 				typeNewsPageModel.size }">下一页</a></li>
 				<li><a
-					href="news!getTypeNews?state=${state}&newsTypeId=${ newsTypeId}&currentPage=<%=typeNewsPageModel.getLastPage()%>&size=${
+					href="news!getTypeNews?typeNewsState=${typeNewsState}&newsTypeId=${ newsTypeId}&typeNewsCurrentPage=<%=typeNewsPageModel.getLastPage()%>&size=${
 				typeNewsPageModel.size }">末页</a></li>
 				<li><span class="pageinfo"> 现在是第
 						${typeNewsPageModel.currentPage}页 , 共<%=typeNewsPageModel.getTotalpages()%>

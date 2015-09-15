@@ -37,12 +37,12 @@
 			<td height="24" colspan="4">&nbsp;我的新闻&nbsp;</td>
 			<td>
 				<!--表单  -->
-				<form action="news!myNews" method="post">
-					状态: <select name="state">
+				<form action="news!myNews?myNewsCurrentPage=1" method="post">
+					状态: <select name="myNewsState">
 						<!--使用c:if标签判断用户选择，并显示其中的项  -->
-						<option value="0" <c:if test="${state==0}">selected</c:if>>待审核</option>
-						<option value="1" <c:if test="${state==1}">selected</c:if>>已发布</option>
-						<option value="2" <c:if test="${state==2}">selected</c:if>>未通过</option>
+						<option value="0" <c:if test="${myNewsState==0}">selected</c:if>>待审核</option>
+						<option value="1" <c:if test="${myNewsState==1}">selected</c:if>>已发布</option>
+						<option value="2" <c:if test="${myNewsState==2}">selected</c:if>>未通过</option>
 					</select> <input type="submit" value="查询" />
 				</form>
 			</td>
@@ -73,7 +73,7 @@
 					<!--输出创建时间  -->
 					<td>${news.createTime}</td>
 					<!--输出新闻栏目  -->
-					<td>${news.newsType}</td>
+					<td>${news.name}</td>
 					<!--输出新闻来源  -->
 					<td>${news.source}</td>
 			</c:forEach>
@@ -94,16 +94,16 @@
 			<td colspan="9" align="right" style="padding:0 52px;">现在是第
 				${pageModel.currentPage}页 , 共<%=pageModel.getTotalpages()%> 页
 				共${pageModel.totalCount}条记录&nbsp;&nbsp; <a
-				href="news!myNews?state=${state}&currentPage=<%=pageModel.getFirstPage()%>&size=${
+				href="news!myNews?myNewsState=${myNewsState}&myNewsCurrentPage=<%=pageModel.getFirstPage()%>&size=${
 				pageModel.size }">首页</a>
 				<a
-				href="news!myNews?state=${state}&currentPage=<%=pageModel.getPrePage()%>&size=${
+				href="news!myNews?myNewsState=${myNewsState}&myNewsCurrentPage=<%=pageModel.getPrePage()%>&size=${
 				pageModel.size }">上一页</a>
 				<a
-				href="news!myNews?state=${state}&currentPage=<%=pageModel.getNextPage()%>&size=${
+				href="news!myNews?myNewsState=${myNewsState}&myNewsCurrentPage=<%=pageModel.getNextPage()%>&size=${
 				pageModel.size }">下一页</a>
 				<a
-				href="news!myNews?state=${state}&currentPage=<%=pageModel.getLastPage()%>&size=${
+				href="news!myNews?myNewsState=${myNewsState}&myNewsCurrentPage=<%=pageModel.getLastPage()%>&size=${
 				pageModel.size }">末页</a>
 			</td>
 		</tr>

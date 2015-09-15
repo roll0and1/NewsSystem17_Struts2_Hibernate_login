@@ -11,7 +11,7 @@ import com.qiangge.utils.AppException;
  */
 
 public class UserService {
-	private UserDao userDao ;
+	private UserDao userDao;
 
 	public UserDao getUserDao() {
 		return userDao;
@@ -37,7 +37,9 @@ public class UserService {
 				flag = userDao.add(user);
 			}
 		} catch (AppException e) {
-			throw new AppException("com.qiangge.service.UserService.register");
+			// throw new
+			// AppException("com.qiangge.service.UserService.register");
+			e.printStackTrace();
 		}
 		return flag;
 	}

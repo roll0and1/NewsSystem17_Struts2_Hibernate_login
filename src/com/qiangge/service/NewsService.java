@@ -82,7 +82,7 @@ public class NewsService {
 			pageModel.setSize(size);
 
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 			throw new AppException("com.qiangge.NewService.getList");
 		}
 		return pageModel;
@@ -127,6 +127,7 @@ public class NewsService {
 
 		} catch (Exception e) {
 			// TODO: handle exception
+			e.printStackTrace();
 			throw new AppException("com.qiangge.NewService.getList");
 		}
 		return pageModel;
@@ -137,6 +138,7 @@ public class NewsService {
 		try {
 			flag = newsDao.update(state, id);
 		} catch (Exception e) {
+			e.printStackTrace();
 			throw new AppException("com.qiangge.NewService.check");
 		}
 		return flag;
@@ -147,6 +149,7 @@ public class NewsService {
 		try {
 			hotNewsList = newsDao.getHotNewsByClick(state, num);
 		} catch (Exception e) {
+			e.printStackTrace();
 			throw new AppException("com.qiangge.NewService.getHotNews");
 		}
 		return hotNewsList;
@@ -157,6 +160,7 @@ public class NewsService {
 		try {
 			latestNewsList = newsDao.getlatestNewsByCreateTime(state, num);
 		} catch (Exception e) {
+			e.printStackTrace();
 			throw new AppException("com.qiangge.NewService.latestNewsList");
 		}
 		return latestNewsList;
@@ -171,13 +175,14 @@ public class NewsService {
 	 * @return
 	 * @throws AppException
 	 */
-	public List<News> getNewsByType(int i, int state, int num)
+	public List<News> getNewsByType(int newTypeId, int state, int num)
 			throws AppException {
 
 		List<News> typeNewsList = null;
 		try {
-			typeNewsList = newsDao.getTypeNews(i, state, num);
+			typeNewsList = newsDao.getTypeNews(newTypeId, state, num);
 		} catch (Exception e) {
+			e.printStackTrace();
 			throw new AppException("com.qiangge.NewService.latestNewsList");
 		}
 		return typeNewsList;
@@ -203,13 +208,14 @@ public class NewsService {
 			// 获取每页新闻信息
 			List<News> typeNewList = newsDao.getTypeNewList(state, newsTypeId,
 					currentPage, size);
-
+			System.out.println("typeNewList SIZE:" + typeNewList.size());
 			typeNewsPageModel.setTotalCount(totalCount);
 			typeNewsPageModel.setCurrentPage(currentPage);
 			typeNewsPageModel.setTypeNewList(typeNewList);
 			typeNewsPageModel.setSize(size);
 
 		} catch (Exception e) {
+			e.printStackTrace();
 			throw new AppException("com.qiangge.NewService.getTypeNews");
 		}
 		return typeNewsPageModel;
@@ -221,6 +227,7 @@ public class NewsService {
 
 			flag = newsDao.updateClick(id);
 		} catch (Exception e) {
+			e.printStackTrace();
 			throw new AppException("com.qiangge.NewService.updateClick");
 		}
 		return flag;

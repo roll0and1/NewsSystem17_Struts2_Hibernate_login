@@ -51,11 +51,11 @@
 					<td align="left"><a
 						href="javascript:preview('news!preview?id=${newsIn.id }')">${newsIn.title }</a></td>
 					<td>${newsIn.createTime }</td>
-					<td>${newsIn.newsType }</td>
+					<td>${newsIn.name }</td>
 					<td>${newsIn.creator }</td>
-					<td><a href="news!check?id=${newsIn.id }&state=1"
+					<td><a href="news!check?id=${newsIn.id }&checkNewsState=1"
 						target="main">通过</a> | <a
-						href="news!check?id=${newsIn.id }&state=2" target="main">不通过</a></td>
+						href="news!check?id=${newsIn.id }&checkNewsState=2" target="main">不通过</a></td>
 				</tr>
 			</c:forEach>
 
@@ -75,16 +75,16 @@
 			<td colspan="9" align="right" style="padding:0 52px;">现在是第
 				${pageModel.currentPage}页 , 共<%=pageModel.getTotalpages()%> 页
 				共${pageModel.totalCount}条记录&nbsp;&nbsp; <a
-				href="news!toUncheck?state=${state}&currentPage=<%=pageModel.getFirstPage()%>&size=${
+				href="news!toUncheck?checkNewsState=${checkNewsState}&checkNewsCurrentPage=<%=pageModel.getFirstPage()%>&size=${
 				pageModel.size }">首页</a>
 				<a
-				href="news!toUncheck?state=${state}&currentPage=<%=pageModel.getPrePage()%>&size=${
+				href="news!toUncheck?checkNewsState=${checkNewsState}&checkNewsCurrentPage=<%=pageModel.getPrePage()%>&size=${
 				pageModel.size }">上一页</a>
 				<a
-				href="news!toUncheck?state=${state}&currentPage=<%=pageModel.getNextPage()%>&size=${
+				href="news!toUncheck?checkNewsState=${checkNewsState}&checkNewsCurrentPage=<%=pageModel.getNextPage()%>&size=${
 				pageModel.size }">下一页</a>
 				<a
-				href="news!toUncheck?state=${state}&currentPage=<%=pageModel.getLastPage()%>&size=${
+				href="news!toUncheck?checkNewsState=${checkNewsState}&checkNewsCurrentPage=<%=pageModel.getLastPage()%>&size=${
 				pageModel.size }">末页</a>
 			</td>
 		</tr>
